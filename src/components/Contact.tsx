@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { portfolioData } from '../data/portfolioData';
+import { useResumeModal } from '../context/ResumeModalContext';
 import { useInView } from '../hooks/useInView';
 import { Mail, Github, Linkedin, BookOpen, MapPin, Copy, Check, ArrowUpRight, FileText } from 'lucide-react';
 
 export const Contact: React.FC = () => {
+  const { openResume } = useResumeModal();
   const { email, github, linkedin, medium, location, university, targetRoles, resumeUrl } =
     portfolioData.personal;
   const { ref, isInView } = useInView();
@@ -104,16 +106,16 @@ export const Contact: React.FC = () => {
                 </a>
 
                 {resumeUrl && (
-                  <a
-                    href={resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link transition-colors hover:border-gray-400 hover:text-theme-text shadow-theme-sm"
+                  <button
+                    type="button"
+                    onClick={openResume}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link transition-colors hover:border-gray-400 hover:text-theme-text shadow-theme-sm focus-visible:outline-2"
+                    aria-label="Open résumé preview modal"
                   >
                     <FileText className="h-4 w-4" />
                     <span>Résumé</span>
                     <ArrowUpRight className="h-3 w-3" />
-                  </a>
+                  </button>
                 )}
               </div>
             </div>

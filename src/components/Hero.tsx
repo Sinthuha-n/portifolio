@@ -1,8 +1,10 @@
 import React from 'react';
 import { portfolioData } from '../data/portfolioData';
+import { useResumeModal } from '../context/ResumeModalContext';
 import { ArrowDown, Github, Linkedin, Mail, GraduationCap, MapPin, Sparkles, FileText } from 'lucide-react';
 
 export const Hero: React.FC = () => {
+  const { openResume } = useResumeModal();
   const {
     name,
     heroHeadline,
@@ -87,17 +89,17 @@ export const Hero: React.FC = () => {
                 <ArrowDown className="h-4 w-4 transition-transform duration-200 group-hover:translate-y-0.5" />
               </a>
 
-              {/* Resume download button if available */}
+              {/* Resume modal preview button */}
               {resumeUrl && (
-                <a
-                  href={resumeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={openResume}
                   className="inline-flex items-center gap-2 rounded-xl border border-theme-btn-secondary-border bg-theme-btn-secondary-bg text-theme-btn-secondary-text px-5 py-3.5 text-sm sm:text-base font-semibold transition-all hover:bg-gray-50 dark:hover:bg-slate-800 shadow-theme-sm focus-visible:outline-2"
+                  aria-label="Open résumé preview modal"
                 >
                   <FileText className="h-4 w-4 text-theme-text-muted" />
                   <span>Résumé</span>
-                </a>
+                </button>
               )}
 
               {/* Secondary buttons: White with gray border in light mode */}

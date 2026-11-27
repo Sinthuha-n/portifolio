@@ -80,6 +80,24 @@ html.dark {
   }
 }
 
+/* Repo link one-time pulse animation */
+@keyframes repoPulse {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 3px rgba(91, 33, 182, 0.22);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-repo-pulse {
+  animation: repoPulse 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s 1 both;
+}
+
 .animate-hero-1 {
   animation: heroEntranceFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
@@ -141,6 +159,7 @@ html.dark {
   .animate-hero-3,
   .animate-hero-4,
   .animate-hero-portrait,
+  .animate-repo-pulse,
   .reveal-item,
   .reveal-hidden,
   .reveal-visible,

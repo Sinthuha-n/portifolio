@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { portfolioData } from '../data/portfolioData';
 import { useTheme } from '../context/useTheme';
+import { useResumeModal } from '../context/ResumeModalContext';
 import { Menu, X, ArrowUpRight, Sun, Moon, Send } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { openResume } = useResumeModal();
   const { name, resumeUrl } = portfolioData.personal;
 
   // Nav links order: About, Work, Skills, Writing, Contact
@@ -82,15 +84,15 @@ export const Navbar: React.FC = () => {
             ))}
 
             {resumeUrl && resumeUrl.trim() !== '' && (
-              <a
-                href={resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 rounded-lg border border-theme-border bg-theme-surface px-3 py-1 text-xs font-semibold text-theme-text transition-colors hover:border-gray-400"
+              <button
+                type="button"
+                onClick={openResume}
+                className="inline-flex items-center gap-1 rounded-lg border border-theme-border bg-theme-surface px-3 py-1 text-xs font-semibold text-theme-text transition-colors hover:border-gray-400 focus-visible:outline-2"
+                aria-label="Open résumé in preview modal"
               >
                 <span>Résumé</span>
                 <ArrowUpRight className="h-3 w-3" />
-              </a>
+              </button>
             )}
           </nav>
 
@@ -170,16 +172,17 @@ export const Navbar: React.FC = () => {
             ))}
 
             {resumeUrl && resumeUrl.trim() !== '' && (
-              <a
-                href={resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-theme-text hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openResume();
+                }}
+                className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-theme-text hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors w-full text-left"
               >
                 <span>Résumé (PDF)</span>
                 <ArrowUpRight className="h-3.5 w-3.5 text-theme-text-muted" />
-              </a>
+              </button>
             )}
 
             <div className="pt-2 border-t border-theme-border flex items-center justify-between">
