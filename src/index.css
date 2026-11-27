@@ -134,6 +134,125 @@ html.dark {
   transform: translateY(0);
 }
 
+/* Contact Section: Heading Entrance (16px rise, 300ms duration) */
+.contact-heading-item {
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.contact-heading-hidden {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.contact-heading-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Contact Links: Staggered Entrance (12px slide, 80ms stagger) + Hover Lift (-2px) */
+.contact-interactive-link {
+  transition: opacity 0.16s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s, background-color 0.2s, color 0.2s;
+  will-change: opacity, transform, box-shadow;
+}
+
+.contact-link-hidden {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.contact-link-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-link-visible:hover {
+  transform: translateY(-2px);
+}
+
+/* Contact Links: Arrow slide to the right and underline transition on hover/focus */
+.contact-link-arrow {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .contact-link-arrow,
+.group:focus-visible .contact-link-arrow {
+  transform: translateX(4px);
+}
+
+.contact-link-label {
+  position: relative;
+  display: inline-block;
+}
+
+.contact-link-label::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 1.5px;
+  background-color: currentColor;
+  opacity: 0.85;
+  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .contact-link-label::after,
+.group:focus-visible .contact-link-label::after {
+  width: 100%;
+}
+
+/* Whiteboard Marker Underline Drawing Animation */
+.whiteboard-marker-path {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  transition: stroke-dashoffset 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: stroke-dashoffset;
+}
+
+.whiteboard-drawn .whiteboard-marker-path {
+  stroke-dashoffset: 0;
+}
+
+/* Engineering Notebook Page Styles */
+.notebook-page {
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.notebook-page-hidden {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.notebook-page-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .notebook-page-visible:hover,
+  .notebook-page:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  }
+}
+
+.notebook-page-visible:hover {
+  transform: translateY(-3px);
+}
+
+/* Faint dot-grid notebook margin pattern */
+.notebook-dot-grid {
+  background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+html.dark .notebook-dot-grid {
+  background-image: radial-gradient(#1e293b 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
 /* 3D Card Flip styles */
 .card-flip-container {
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
@@ -163,10 +282,27 @@ html.dark {
   .reveal-item,
   .reveal-hidden,
   .reveal-visible,
-  .card-flip-container {
+  .card-flip-container,
+  .notebook-page,
+  .notebook-page-hidden,
+  .notebook-page-visible,
+  .notebook-page-visible:hover,
+  .whiteboard-marker-path,
+  .whiteboard-drawn .whiteboard-marker-path,
+  .contact-heading-item,
+  .contact-heading-hidden,
+  .contact-heading-visible,
+  .contact-interactive-link,
+  .contact-link-hidden,
+  .contact-link-visible,
+  .contact-link-visible:hover,
+  .contact-link-arrow,
+  .contact-link-label::after {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    box-shadow: none !important;
+    stroke-dashoffset: 0 !important;
   }
 }

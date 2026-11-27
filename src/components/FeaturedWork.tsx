@@ -32,7 +32,7 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({ onOpenPlanoraCaseStu
         <div className="space-y-8">
           {/* 1. Wide Lead Feature for Planora */}
           {planoraProject && (
-            <div className="w-full">
+            <div id="project-planora" className="w-full scroll-mt-24">
               <ProjectCard
                 project={planoraProject}
                 isWide={true}
@@ -44,7 +44,9 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({ onOpenPlanoraCaseStu
           {/* 2. Equally Sized Two-Column Desktop Grid for CheckINN and Page-Bloom */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch">
             {secondaryProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} isWide={false} />
+              <div key={project.id} id={`project-${project.id}`} className="scroll-mt-24 h-full">
+                <ProjectCard project={project} isWide={false} />
+              </div>
             ))}
           </div>
         </div>
