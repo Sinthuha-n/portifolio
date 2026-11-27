@@ -14,7 +14,7 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({ onOpenPlanoraCaseStu
   const secondaryProjects = projects.filter((p) => p.id !== 'planora');
 
   return (
-    <section id="work" className="py-16 sm:py-20 border-b border-theme-border bg-theme-bg">
+    <section id="work" className="scroll-mt-20 py-16 sm:py-20 border-b border-theme-border bg-theme-bg">
       <div className="mx-auto max-w-[1120px] px-6 lg:px-10">
         {/* Section Header (aligned to exact left edge) */}
         <div className="text-left mb-10 sm:mb-12">

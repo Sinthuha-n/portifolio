@@ -1,34 +1,39 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { portfolioData } from '../data/portfolioData';
 import { useTheme } from '../context/useTheme';
-import { ThemeChoice } from '../context/ThemeContextDefinition';
-import { Menu, X, ArrowUpRight, Sun, Moon, Laptop, Check } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Sun, Moon, Send } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
   const { theme, setTheme } = useTheme();
   const { name, resumeUrl } = portfolioData.personal;
 
+  // Nav links order: About, Work, Skills, Writing, Contact
   const navLinks = [
+    { label: 'About', href: '#about' },
     { label: 'Work', href: '#work' },
     { label: 'Skills', href: '#skills' },
-    { label: 'About', href: '#about' },
     { label: 'Writing', href: '#writing' },
     { label: 'Contact', href: '#contact' },
   ];
 
-  // Close theme dropdown when clicking outside
+  // Mobile drawer links: remaining links (Contact is already pinned in mobile top bar)
+  const mobileDrawerLinks = [
+    { label: 'About', href: '#about' },
+    { label: 'Work', href: '#work' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Writing', href: '#writing' },
+  ];
+
+  // Close mobile menu on Escape key press
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setThemeDropdownOpen(false);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -40,16 +45,15 @@ export const Navbar: React.FC = () => {
     }
   };
 
-  const themeOptions: { value: ThemeChoice; label: string; icon: React.ReactNode }[] = [
-    { value: 'light', label: 'Light', icon: <Sun className="h-4 w-4" /> },
-    { value: 'dark', label: 'Dark', icon: <Moon className="h-4 w-4" /> },
-    { value: 'system', label: 'System', icon: <Laptop className="h-4 w-4" /> },
-  ];
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+  };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-theme-border bg-theme-bg/95 backdrop-blur-md transition-colors duration-200">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full border-b border-theme-border bg-theme-bg/95 backdrop-blur-md transition-colors duration-200">
       <div className="mx-auto flex h-16 max-w-[1120px] items-center justify-between px-6 lg:px-10">
-        {/* Name / Logo */}
+        {/* Brand / Logo */}
         <a
           href="#"
           className="group flex items-center gap-2.5 font-bold text-purple-heading dark:text-purple-dark transition-colors"
@@ -63,7 +67,7 @@ export const Navbar: React.FC = () => {
           </span>
         </a>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation (>= 768px) */}
         <div className="hidden items-center gap-7 md:flex">
           <nav className="flex items-center gap-6" aria-label="Main navigation">
             {navLinks.map((link) => (
@@ -90,81 +94,58 @@ export const Navbar: React.FC = () => {
             )}
           </nav>
 
-          {/* Theme Selector Dropdown */}
-          <div className="relative" ref={dropdownRef}>
-            <button
-              type="button"
-              onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-theme-border bg-theme-surface text-theme-link shadow-theme-sm transition-colors hover:border-theme-border-strong hover:text-theme-text focus-visible:outline-2"
-              aria-label={`Theme selector: Current theme is ${theme}`}
-              aria-expanded={themeDropdownOpen}
-            >
-              {theme === 'dark' ? (
-                <Moon className="h-4 w-4" />
-              ) : theme === 'light' ? (
-                <Sun className="h-4 w-4 text-amber-500" />
-              ) : (
-                <Laptop className="h-4 w-4" />
-              )}
-            </button>
-
-            {themeDropdownOpen && (
-              <div
-                className="absolute right-0 mt-2 w-36 rounded-xl border border-theme-border bg-theme-surface p-1.5 shadow-theme-lg z-50 animate-hero-1"
-                role="menu"
-              >
-                {themeOptions.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => {
-                      setTheme(opt.value);
-                      setThemeDropdownOpen(false);
-                    }}
-                    className={`flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors ${
-                      theme === opt.value
-                        ? 'bg-gray-100 dark:bg-slate-800 text-purple-heading dark:text-purple-dark font-semibold'
-                        : 'text-theme-text-muted hover:bg-gray-50 dark:hover:bg-slate-800/60 hover:text-theme-text'
-                    }`}
-                    role="menuitem"
-                  >
-                    <span className="flex items-center gap-2">
-                      {opt.icon}
-                      {opt.label}
-                    </span>
-                    {theme === opt.value && <Check className="h-3.5 w-3.5" />}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Mobile menu trigger */}
-        <div className="flex items-center gap-2 md:hidden">
+          {/* Clearly labelled Light / Dark toggle */}
           <button
             type="button"
-            onClick={() => {
-              if (theme === 'light') setTheme('dark');
-              else if (theme === 'dark') setTheme('system');
-              else setTheme('light');
-            }}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-theme-border bg-theme-surface text-theme-link"
-            aria-label="Toggle theme mode"
+            onClick={toggleTheme}
+            className="inline-flex items-center gap-2 rounded-xl border border-theme-border bg-theme-surface px-3 py-1.5 text-xs font-semibold text-theme-text shadow-theme-sm transition-colors hover:border-theme-border-strong hover:bg-gray-50 dark:hover:bg-slate-800 focus-visible:outline-2"
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
             {theme === 'dark' ? (
-              <Moon className="h-4 w-4" />
-            ) : theme === 'light' ? (
-              <Sun className="h-4 w-4 text-amber-500" />
+              <>
+                <Sun className="h-3.5 w-3.5 text-amber-400" />
+                <span>Light</span>
+              </>
             ) : (
-              <Laptop className="h-4 w-4" />
+              <>
+                <Moon className="h-3.5 w-3.5 text-slate-700" />
+                <span>Dark</span>
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Top Bar Controls (< 768px): Keep Contact & Theme Toggle visible */}
+        <div className="flex items-center gap-2 md:hidden">
+          {/* Pinned Contact link directly accessible from top bar */}
+          <a
+            href="#contact"
+            onClick={(e) => handleLinkClick(e, '#contact')}
+            className="inline-flex items-center gap-1 rounded-lg bg-theme-btn-primary-bg text-theme-btn-primary-text px-2.5 py-1.5 text-xs font-semibold shadow-theme-sm focus-visible:outline-2"
+          >
+            <Send className="h-3 w-3" />
+            <span>Contact</span>
+          </a>
+
+          {/* Pinned Theme toggle */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-theme-border bg-theme-surface text-theme-text transition-colors hover:bg-gray-50 dark:hover:bg-slate-800"
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? (
+              <Sun className="h-4 w-4 text-amber-400" />
+            ) : (
+              <Moon className="h-4 w-4 text-slate-700" />
             )}
           </button>
 
+          {/* Mobile menu toggle for remaining links */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="inline-flex items-center justify-center rounded-lg border border-theme-border bg-theme-surface p-2 text-theme-link hover:text-theme-text"
+            className="inline-flex items-center justify-center rounded-lg border border-theme-border bg-theme-surface p-1.5 text-theme-link hover:text-theme-text focus-visible:outline-2"
             aria-expanded={mobileMenuOpen}
             aria-label="Toggle navigation menu"
           >
@@ -175,38 +156,51 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="border-b border-theme-border bg-theme-surface px-6 py-4 md:hidden animate-hero-1">
-          <nav className="flex flex-col space-y-3" aria-label="Mobile navigation">
-            {navLinks.map((link) => (
+        <div className="border-b border-theme-border bg-theme-surface px-6 py-4 md:hidden animate-hero-1 shadow-theme-md">
+          <nav className="flex flex-col space-y-2.5 text-left" aria-label="Mobile navigation">
+            {mobileDrawerLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
-                className="rounded-lg px-3 py-2 text-base font-medium text-theme-text hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-purple-heading"
+                className="rounded-lg px-3 py-2 text-sm font-semibold text-theme-text hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-purple-heading dark:hover:text-purple-dark transition-colors"
               >
                 {link.label}
               </a>
             ))}
 
-            <div className="pt-3 border-t border-theme-border flex items-center justify-between">
-              <span className="text-xs font-medium text-theme-text-muted">Theme</span>
-              <div className="flex rounded-lg border border-theme-border p-0.5 bg-theme-bg">
-                {themeOptions.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => setTheme(opt.value)}
-                    className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
-                      theme === opt.value
-                        ? 'bg-theme-surface text-purple-heading dark:text-purple-dark shadow-theme-sm font-semibold'
-                        : 'text-theme-text-muted hover:text-theme-text'
-                    }`}
-                  >
-                    {opt.icon}
-                    <span>{opt.label}</span>
-                  </button>
-                ))}
-              </div>
+            {resumeUrl && resumeUrl.trim() !== '' && (
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-theme-text hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+              >
+                <span>Résumé (PDF)</span>
+                <ArrowUpRight className="h-3.5 w-3.5 text-theme-text-muted" />
+              </a>
+            )}
+
+            <div className="pt-2 border-t border-theme-border flex items-center justify-between">
+              <span className="text-xs font-medium text-theme-text-muted">Appearance</span>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-theme-border bg-theme-bg px-3 py-1.5 text-xs font-semibold text-theme-text"
+              >
+                {theme === 'dark' ? (
+                  <>
+                    <Sun className="h-3.5 w-3.5 text-amber-400" />
+                    <span>Light Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="h-3.5 w-3.5 text-slate-700" />
+                    <span>Dark Mode</span>
+                  </>
+                )}
+              </button>
             </div>
           </nav>
         </div>

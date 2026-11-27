@@ -18,11 +18,11 @@ export const AppContent: React.FC = () => {
   return (
     <div className="min-h-screen bg-theme-bg font-sans text-theme-text selection:bg-theme-accent selection:text-white flex flex-col justify-between overflow-x-hidden transition-colors duration-200">
       <Navbar />
-      <main className="flex-1 w-full">
+      <main className="flex-1 w-full pt-16">
         <Hero />
+        <About />
         <FeaturedWork onOpenPlanoraCaseStudy={() => setCaseStudyOpen(true)} />
         <SkillsAndCertifications />
-        <About />
         <Writing />
         <Contact />
       </main>

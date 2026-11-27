@@ -16,7 +16,7 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-16 sm:py-20 border-b border-theme-border bg-theme-bg">
+    <section id="contact" className="scroll-mt-20 py-16 sm:py-20 border-b border-theme-border bg-theme-bg">
       <div className="mx-auto max-w-[1120px] px-6 lg:px-10">
         <div
           ref={ref}

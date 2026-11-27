@@ -44,6 +44,8 @@ export interface Certificate {
 
 export interface SkillCategory {
   category: string;
+  tiedWork: string;
+  summary: string;
   items: string[];
 }
 
@@ -258,33 +260,50 @@ export const portfolioData: PortfolioData = {
         "Examining how modern AI tools and assistive coding enhance engineer productivity, and why core system thinking, problem solving, and architecture remain uniquely human skills.",
       tags: ["AI in Tech", "Developer Workflow", "Software Careers"],
     },
-    {
-      title: "Social Media: Behind the Screen",
-      publication: "Medium",
-      url: "https://medium.com/@sinthuhanadesan/social-media-behind-the-screen-f8f443c20ccd",
-      readTime: "4 min read",
-      description:
-        "Reflections on digital habits, the architecture of online engagement, and how aspiring software engineers can build mindful, intentional boundaries with digital products.",
-      tags: ["Tech Culture", "Mindful Tech", "Perspectives"],
-    },
   ],
 
   skills: [
     {
-      category: "Languages & Core",
-      items: ["TypeScript", "JavaScript", "Java", "SQL", "HTML5", "Modern CSS"],
+      category: "Software Engineering",
+      tiedWork: "Planora & CheckINN",
+      summary:
+        "Full-stack web applications, optimistic drag-and-drop state machines, and relational booking APIs with transactional guarantees.",
+      items: [
+        "React",
+        "TypeScript",
+        "Java / Spring Boot",
+        "PostgreSQL",
+        "REST APIs",
+        "Tailwind CSS",
+      ],
     },
     {
-      category: "Frameworks & Frontend",
-      items: ["React", "React Native", "Tailwind CSS", "Vite", "Expo"],
+      category: "Mobile Development",
+      tiedWork: "Page-Bloom",
+      summary:
+        "Touch-first tablet and mobile apps, closed vector SVG canvases, instant undo/redo action stacks, and local SQLite persistence.",
+      items: [
+        "React Native",
+        "Expo SDK",
+        "SQLite Autosave",
+        "SVG Vector Canvas",
+        "State History Stack",
+        "TypeScript",
+      ],
     },
     {
-      category: "Backend & Databases",
-      items: ["Spring Boot", "PostgreSQL", "REST APIs", "SQLite", "Node.js"],
-    },
-    {
-      category: "DevOps & Engineering Workflow",
-      items: ["Git", "GitHub", "Postman", "CI/CD Workflows", "Agile Practices"],
+      category: "Build & Delivery",
+      tiedWork: "CheckINN & Page-Bloom CI",
+      summary:
+        "Automated GitHub Actions delivery pipelines, secret leakage prevention, Flyway database migrations, and release verification.",
+      items: [
+        "GitHub Actions CI/CD",
+        "Flyway Migrations",
+        "Git Branching",
+        "Vite",
+        "ESLint & Vitest",
+        "Maven",
+      ],
     },
   ],
 
@@ -354,10 +373,8 @@ export const portfolioData: PortfolioData = {
   about: {
     heading: "About Me",
     bioParagraphs: [
-      "I’m an Information Technology undergraduate at the University of Moratuwa with a deep interest in software engineering, backend systems, and responsive mobile architecture.",
-      "My development journey has been defined by hands-on engineering: from building responsive Kanban boards with optimistic drag-and-drop state to engineering full-stack booking platforms with Spring Boot and PostgreSQL, and architecting offline-first mobile canvas apps with React Native and SQLite.",
-      "Beyond building projects, I believe in clear communication and shared learning. I actively write about version control best practices and engineering workflows on Medium, publish articles with LinkIT Intecs, and continuously refine my database and API design fundamentals.",
-      "I am actively seeking internship opportunities in Software Engineering, DevOps, and Mobile Development where I can contribute clean, maintainable code to production systems and learn alongside senior engineers.",
+      "I’m a BSc (Hons) Information Technology undergraduate at the University of Moratuwa. I build web and mobile applications—ranging from collaborative agile workspaces with interactive drag-and-drop boards to full-stack transactional reservation systems and offline-first mobile coloring studios.",
+      "My development focus centers on clean component architectures, robust backend REST APIs with relational databases, and automated delivery pipelines. I am actively seeking internship opportunities in Software Engineering, DevOps, and Mobile Development where I can contribute to production systems and learn alongside engineering teams.",
     ],
   },
 };

@@ -4,13 +4,13 @@ import { useInView } from '../hooks/useInView';
 import { ArrowUpRight, BookOpen, Clock } from 'lucide-react';
 
 export const Writing: React.FC = () => {
-  const { writing } = portfolioData;
+  const { writing, personal } = portfolioData;
   const { ref, isInView } = useInView();
 
   if (!writing || writing.length === 0) return null;
 
   return (
-    <section id="writing" className="py-16 sm:py-20 border-b border-theme-border bg-theme-bg">
+    <section id="writing" className="scroll-mt-20 py-16 sm:py-20 border-b border-theme-border bg-theme-bg">
       <div className="mx-auto max-w-[1120px] px-6 lg:px-10">
         <div
           ref={ref}
@@ -25,19 +25,19 @@ export const Writing: React.FC = () => {
               Engineering Notes & Articles
             </h2>
             <p className="mt-3 text-base sm:text-lg text-theme-text-muted leading-relaxed max-w-2xl">
-              Technical writing on Git version control best practices, developer productivity, and intentional technology culture published on Medium.
+              Technical writing on Git version control best practices, CI/CD automated pipelines, and developer workflows published on Medium.
             </p>
           </div>
 
-          {/* Articles Grid */}
+          {/* Articles Grid (up to 3 verified articles) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-            {writing.map((article) => (
+            {writing.slice(0, 3).map((article) => (
               <a
                 key={article.title}
                 href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col justify-between rounded-2xl border border-theme-border bg-theme-surface p-6 transition-all duration-200 hover:border-theme-border-strong hover:shadow-theme-md focus-visible:outline-2"
+                className="group flex flex-col justify-between rounded-2xl border border-theme-border bg-theme-surface p-6 transition-all duration-200 hover:border-theme-border-strong hover:shadow-theme-md focus-visible:outline-2 text-left"
               >
                 <div>
                   {/* Meta header */}
@@ -83,6 +83,20 @@ export const Writing: React.FC = () => {
                 </div>
               </a>
             ))}
+          </div>
+
+          {/* CTA: View all articles on Medium */}
+          <div className="mt-10 flex justify-center sm:justify-start">
+            <a
+              href={personal.medium}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl border border-theme-btn-secondary-border bg-theme-btn-secondary-bg text-theme-btn-secondary-text px-5 py-3 text-sm font-semibold transition-all hover:bg-gray-50 dark:hover:bg-slate-800 shadow-theme-sm focus-visible:outline-2"
+            >
+              <BookOpen className="h-4 w-4 text-theme-text-muted" />
+              <span>View all articles on Medium</span>
+              <ArrowUpRight className="h-4 w-4 text-theme-text-muted" />
+            </a>
           </div>
         </div>
       </div>
