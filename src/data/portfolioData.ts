@@ -1,17 +1,27 @@
 export interface Project {
   id: string;
   title: string;
-  roleHighlight?: string;
+  category: string;
+  roleHighlight: string;
   description: string;
+  featureHighlights: string[];
   tech: string[];
   isFeaturedWide?: boolean;
-  /** Optional screenshot path or URL. When empty, a clean text-based layout is rendered */
+  /** Optional screenshot path or URL. When empty, a polished text-based layout is rendered */
   imageUrl?: string;
   /** Optional GitHub repository link. Rendered only when non-empty */
   githubUrl?: string;
   /** Optional Live preview link. Rendered only when non-empty */
   liveUrl?: string;
-  category: string;
+}
+
+export interface CicdDetails {
+  /** Set to true only when a verified CI/CD workflow file is configured in the repository. When false, kept out of the published UI. */
+  configured: boolean;
+  summary: string;
+  checks: string[];
+  workflowPath?: string;
+  workflowUrl?: string;
 }
 
 export interface PortfolioData {
@@ -19,6 +29,7 @@ export interface PortfolioData {
     name: string;
     heroHeadline: string;
     heroIntro: string;
+    targetRoles: string;
     university: string;
     degree: string;
     location: string;
@@ -29,6 +40,7 @@ export interface PortfolioData {
     linkedin?: string;
     resumeUrl?: string;
   };
+  cicd?: CicdDetails;
   projects: Project[];
   about: {
     heading: string;
@@ -43,18 +55,36 @@ export interface PortfolioData {
 export const portfolioData: PortfolioData = {
   personal: {
     name: "Sinthuha Nadesan",
-    heroHeadline: "Software Engineering Intern Candidate",
-    heroIntro:
-      "I’m an IT undergraduate at the University of Moratuwa. I build web and mobile apps, from drag-and-drop project boards to offline coloring tools.",
+    heroHeadline: "IT Undergraduate at University of Moratuwa",
+    heroIntro: "I build web and mobile apps.",
+    targetRoles: "Seeking internships in Software Engineering, DevOps, and Mobile Development.",
     university: "University of Moratuwa",
     degree: "BSc (Hons) in Information Technology",
     location: "Sri Lanka",
-    status: "Seeking SWE Internship Opportunities",
-    // Leave empty strings until real URLs are ready
+    status: "Available for Internships",
+    // Leave empty strings until real verified URLs are supplied
     email: "",
     github: "",
     linkedin: "",
     resumeUrl: "",
+  },
+
+  /**
+   * CI/CD Configuration Details:
+   * Maintained here for easy editing. Kept out of the published UI since no verified
+   * workflow file has been committed to the repository yet.
+   */
+  cicd: {
+    configured: false, // Change to true once .github/workflows/ci.yml is in place
+    summary:
+      "Continuous integration pipeline running automated linting, strict TypeScript type validation, and production bundle builds on pull requests and pushes.",
+    checks: [
+      "ESLint code quality & React best-practice checks",
+      "TypeScript compiler typecheck (tsc -b)",
+      "Vite optimized production bundle compilation",
+    ],
+    workflowPath: ".github/workflows/ci.yml",
+    workflowUrl: "",
   },
 
   projects: [
@@ -62,9 +92,14 @@ export const portfolioData: PortfolioData = {
       id: "planora",
       title: "Planora",
       category: "Project Management Platform",
-      roleHighlight: "Kanban Board & Core Agile Modules",
+      roleHighlight: "Drag-and-Drop Kanban Board, Backlog & Timeline",
       description:
         "I built the drag-and-drop Kanban board and contributed to the Backlog and Timeline.",
+      featureHighlights: [
+        "Architected smooth drag-and-drop task card interactions across Kanban columns with reactive state synchronization",
+        "Contributed to core planning workflows including Backlog grooming and milestone Timeline tracking",
+        "Engineered modular React component architecture optimized for fast re-renders during state updates",
+      ],
       tech: [
         "React",
         "TypeScript",
@@ -74,67 +109,80 @@ export const portfolioData: PortfolioData = {
         "REST APIs",
       ],
       isFeaturedWide: true,
-      imageUrl: "", // Add screenshot path (e.g., "/images/planora.png") when available
-      githubUrl: "", // Add repository link when ready
-      liveUrl: "",   // Add deployment link when ready
+      imageUrl: "", // Place verified screenshot in public/ (e.g. '/images/planora.png') when ready
+      githubUrl: "", // Add verified repo URL when ready
+      liveUrl: "",   // Add verified live demo URL when ready
     },
     {
       id: "checkinn",
       title: "CheckINN",
       category: "Full-Stack Web Application",
+      roleHighlight: "Full-Stack Architecture & Booking System",
       description:
         "A hotel booking project built with React, TypeScript, Spring Boot, and PostgreSQL.",
+      featureHighlights: [
+        "Engineered full-stack reservation flow connecting typed React UI with Spring Boot REST services",
+        "Designed relational database schema in PostgreSQL with transactional guarantees for room availability",
+        "Implemented robust data validation and clean separation between controller, service, and persistence layers",
+      ],
       tech: [
         "React",
         "TypeScript",
         "Spring Boot",
         "PostgreSQL",
-        "RESTful Services",
+        "REST APIs",
         "Tailwind CSS",
       ],
       isFeaturedWide: false,
-      imageUrl: "", // Add screenshot path when available
-      githubUrl: "", // Add repository link when ready
-      liveUrl: "",   // Add deployment link when ready
+      imageUrl: "", // Place verified screenshot when ready
+      githubUrl: "", // Add verified repo URL when ready
+      liveUrl: "",   // Add verified live demo URL when ready
     },
     {
       id: "page-bloom",
       title: "Page-Bloom",
-      category: "Interactive Canvas & Mobile",
+      category: "Offline-First Canvas & Mobile App",
+      roleHighlight: "Offline Editing, Undo/Redo & Local Autosave",
       description:
         "An offline-capable coloring app with tappable regions, undo and redo, and local autosave.",
+      featureHighlights: [
+        "Built responsive interactive canvas enabling precision region-based tap-to-color fills",
+        "Implemented custom undo/redo state history stack for seamless coloring state reversal",
+        "Engineered resilient local autosave to guarantee artwork persistence across offline sessions",
+      ],
       tech: [
         "React / TypeScript",
-        "Offline Storage (IndexedDB/Local)",
-        "SVG Vector Canvas",
-        "History Management (Undo/Redo)",
+        "Canvas / SVG",
+        "Undo / Redo Stack",
+        "Local Autosave (IndexedDB/Storage)",
+        "Mobile-Ready",
       ],
       isFeaturedWide: false,
-      imageUrl: "", // Add screenshot path when available
-      githubUrl: "", // Add repository link when ready
-      liveUrl: "",   // Add deployment link when ready
+      imageUrl: "", // Place verified screenshot when ready
+      githubUrl: "", // Add verified repo URL when ready
+      liveUrl: "",   // Add verified live demo URL when ready
     },
   ],
 
   about: {
     heading: "About Me",
     bioParagraphs: [
-      "I'm an Information Technology undergraduate at the University of Moratuwa with a passion for architecting clean, responsive, and resilient software.",
-      "My development focus spans modern frontend interfaces, full-stack application development, and interactive tools. I enjoy taking ideas from low-level state design to refined user interactions—whether crafting fluid drag-and-drop Kanban workflows or reliable offline-first state systems.",
-      "Currently looking for a Software Engineering Internship where I can collaborate with talented engineering teams, contribute reliable code to production systems, and continue growing as an engineer.",
+      "I’m an Information Technology undergraduate at the University of Moratuwa with a deep interest in building performant web and mobile applications.",
+      "My development experience ranges from architecting responsive frontend interfaces with drag-and-drop state machines to building reliable backend APIs with Spring Boot and PostgreSQL, as well as designing offline-first client storage.",
+      "I am actively seeking internship opportunities in Software Engineering, DevOps, and Mobile Development where I can contribute to mission-critical systems, write clean, well-tested code, and continue expanding my engineering skillset.",
     ],
     skills: [
       {
         category: "Languages & Core",
-        items: ["TypeScript", "JavaScript", "Java", "SQL", "HTML5", "CSS3 / Modern Layouts"],
+        items: ["TypeScript", "JavaScript", "Java", "SQL", "HTML5", "CSS3 / Modern CSS"],
       },
       {
         category: "Frameworks & Libraries",
         items: ["React", "Spring Boot", "Tailwind CSS", "Node.js", "Vite"],
       },
       {
-        category: "Databases & Tools",
-        items: ["PostgreSQL", "Git / GitHub", "REST APIs", "Postman", "Responsive Design"],
+        category: "Databases & DevOps Tools",
+        items: ["PostgreSQL", "Git / GitHub", "REST APIs", "CI/CD Workflows", "Responsive Design"],
       },
     ],
   },

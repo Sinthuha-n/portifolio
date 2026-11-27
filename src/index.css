@@ -24,7 +24,55 @@
   }
 }
 
-/* Reduced motion preference */
+/* Staggered entrance keyframes for hero section */
+@keyframes heroEntranceFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-1 {
+  animation: heroEntranceFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+.animate-hero-2 {
+  animation: heroEntranceFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.animate-hero-3 {
+  animation: heroEntranceFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+.animate-hero-4 {
+  animation: heroEntranceFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+.animate-hero-5 {
+  animation: heroEntranceFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+}
+
+/* One-time viewport reveal transition */
+.reveal-item {
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
@@ -37,5 +85,19 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .animate-hero-1,
+  .animate-hero-2,
+  .animate-hero-3,
+  .animate-hero-4,
+  .animate-hero-5,
+  .reveal-item,
+  .reveal-hidden,
+  .reveal-visible {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
