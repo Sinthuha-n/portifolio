@@ -32,10 +32,19 @@ export interface Article {
 }
 
 export interface Certificate {
+  id: string;
   title: string;
   issuer: string;
+  date: string;
+  summary: string;
   image: string;
-  highlight: string;
+  issuerUrl?: string;
+  verificationUrl?: string;
+}
+
+export interface SkillCategory {
+  category: string;
+  items: string[];
 }
 
 export interface CicdDetails {
@@ -67,14 +76,11 @@ export interface PortfolioData {
   cicd?: CicdDetails;
   projects: Project[];
   writing: Article[];
+  skills: SkillCategory[];
   certificates: Certificate[];
   about: {
     heading: string;
     bioParagraphs: string[];
-    skills: {
-      category: string;
-      items: string[];
-    }[];
   };
 }
 
@@ -247,36 +253,85 @@ export const portfolioData: PortfolioData = {
     },
   ],
 
+  skills: [
+    {
+      category: "Languages & Core",
+      items: ["TypeScript", "JavaScript", "Java", "SQL", "HTML5", "Modern CSS"],
+    },
+    {
+      category: "Frameworks & Frontend",
+      items: ["React", "React Native", "Tailwind CSS", "Vite", "Expo"],
+    },
+    {
+      category: "Backend & Databases",
+      items: ["Spring Boot", "PostgreSQL", "REST APIs", "SQLite", "Node.js"],
+    },
+    {
+      category: "DevOps & Engineering Workflow",
+      items: ["Git", "GitHub", "Postman", "CI/CD Workflows", "Agile Practices"],
+    },
+  ],
+
   certificates: [
     {
+      id: "frontend-web-dev",
       title: "Frontend Web Development",
       issuer: "University of Moratuwa",
+      date: "Dec 2024",
+      summary: "Responsive interfaces and web application structure.",
       image: "/images/certificates/Frontend Web Development - University of Moratuwa.jpeg",
-      highlight: "Responsive layout design, modern JavaScript, semantic HTML & CSS",
+      issuerUrl: "https://uom.lk",
+      verificationUrl: "", // Only shown when verified issuer verification URL is supplied
     },
     {
-      title: "Postman API Fundamentals Student Expert",
-      issuer: "Postman",
-      image: "/images/certificates/Postman API Fundamental - Postman.jpeg",
-      highlight: "REST API design, testing collections, automated endpoint validation",
-    },
-    {
+      id: "sql-career-track",
       title: "SQL Career Track",
       issuer: "DataCamp",
+      date: "Jan 2025",
+      summary: "Relational querying, schema thinking, and data problem solving.",
       image: "/images/certificates/SQL Career Track - DataCamp.jpeg",
-      highlight: "Complex relational queries, table joins, data aggregations, schema design",
+      issuerUrl: "https://www.datacamp.com",
+      verificationUrl: "",
     },
     {
-      title: "Software Engineering Essentials",
-      issuer: "Certified Program",
-      image: "/images/certificates/software Engineering essential.jpeg",
-      highlight: "Software lifecycle models, agile sprints, clean code methodologies",
-    },
-    {
-      title: "HackerRank SQL Certification",
+      id: "hackerrank-sql",
+      title: "HackerRank SQL",
       issuer: "HackerRank",
+      date: "Feb 2025",
+      summary: "SQL fundamentals validated through practical challenges.",
       image: "/images/certificates/HackerRank SQL.jpeg",
-      highlight: "Advanced relational database query optimization and problem solving",
+      issuerUrl: "https://www.hackerrank.com",
+      verificationUrl: "",
+    },
+    {
+      id: "software-engineering-essentials",
+      title: "Software Engineering Essentials",
+      issuer: "IBM Skills Network",
+      date: "Apr 2025",
+      summary: "Core software engineering practices and professional foundations.",
+      image: "/images/certificates/software Engineering essential.jpeg",
+      issuerUrl: "https://skills.yourlearning.ibm.com",
+      verificationUrl: "",
+    },
+    {
+      id: "postman-api-fundamentals",
+      title: "Postman API Fundamentals",
+      issuer: "Postman",
+      date: "Sep 2025",
+      summary: "REST API testing, requests, collections, and integration workflow.",
+      image: "/images/certificates/Postman API Fundamental - Postman.jpeg",
+      issuerUrl: "https://www.postman.com",
+      verificationUrl: "",
+    },
+    {
+      id: "aws-ai-practitioner",
+      title: "AWS AI Practitioner Challenge",
+      issuer: "Udacity",
+      date: "Jun 2026",
+      summary: "AI practitioner foundations with AWS-aligned learning.",
+      image: "/images/certificates/AWS AI Practitioner Challenge - Udacity.jpeg",
+      issuerUrl: "https://www.udacity.com",
+      verificationUrl: "",
     },
   ],
 
@@ -287,24 +342,6 @@ export const portfolioData: PortfolioData = {
       "My development journey has been defined by hands-on engineering: from building responsive Kanban boards with optimistic drag-and-drop state to engineering full-stack booking platforms with Spring Boot and PostgreSQL, and architecting offline-first mobile canvas apps with React Native and SQLite.",
       "Beyond building projects, I believe in clear communication and shared learning. I actively write about version control best practices and engineering workflows on Medium, publish articles with LinkIT Intecs, and continuously refine my database and API design fundamentals.",
       "I am actively seeking internship opportunities in Software Engineering, DevOps, and Mobile Development where I can contribute clean, maintainable code to production systems and learn alongside senior engineers.",
-    ],
-    skills: [
-      {
-        category: "Languages & Core",
-        items: ["TypeScript", "JavaScript", "Java", "SQL", "HTML5", "Modern CSS"],
-      },
-      {
-        category: "Frameworks & Frontend",
-        items: ["React", "React Native", "Tailwind CSS", "Vite", "Expo"],
-      },
-      {
-        category: "Backend & Databases",
-        items: ["Spring Boot", "PostgreSQL", "REST APIs", "SQLite", "Node.js"],
-      },
-      {
-        category: "DevOps & Tools",
-        items: ["Git", "GitHub", "Postman", "CI/CD Workflows", "Agile Practices"],
-      },
     ],
   },
 };

@@ -3,6 +3,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { FeaturedWork } from './components/FeaturedWork';
+import { SkillsAndCertifications } from './components/SkillsAndCertifications';
 import { About } from './components/About';
 import { Writing } from './components/Writing';
 import { Contact } from './components/Contact';
@@ -20,6 +21,7 @@ export const AppContent: React.FC = () => {
       <main className="flex-1 w-full">
         <Hero />
         <FeaturedWork onOpenPlanoraCaseStudy={() => setCaseStudyOpen(true)} />
+        <SkillsAndCertifications />
         <About />
         <Writing />
         <Contact />

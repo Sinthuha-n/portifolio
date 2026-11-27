@@ -140,10 +140,9 @@ html.dark {
   .animate-hero-portrait,
   .reveal-item,
   .reveal-hidden,
-  .reveal-visible {
+  .reveal-visible,
+  .card-flip-container {
     animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+    transition-duration: 0.01ms !important;
   }
 }
