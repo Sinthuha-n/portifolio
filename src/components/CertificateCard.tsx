@@ -7,19 +7,21 @@ interface CertificateCardProps {
 }
 
 export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate }) => {
-  const [isFlipped, setIsFlipped] = useState(false);
+  // Explicit flip persists until "Flip back" is selected
+  const [isExplicitlyFlipped, setIsExplicitlyFlipped] = useState(false);
+
   const viewButtonRef = useRef<HTMLButtonElement>(null);
   const flipBackButtonRef = useRef<HTMLButtonElement>(null);
   const isFirstMount = useRef(true);
 
-  // Manage accessible focus when flipping
+  // Manage accessible focus ONLY on explicit keyboard/click activation (NEVER on hover)
   useEffect(() => {
     if (isFirstMount.current) {
       isFirstMount.current = false;
       return;
     }
 
-    if (isFlipped) {
+    if (isExplicitlyFlipped) {
       const timer = setTimeout(() => {
         flipBackButtonRef.current?.focus();
       }, 50);
@@ -30,32 +32,33 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
       }, 50);
       return () => clearTimeout(timer);
     }
-  }, [isFlipped]);
+  }, [isExplicitlyFlipped]);
 
-  const handleFlip = () => {
-    setIsFlipped((prev) => !prev);
+  const handleExplicitFlip = (e?: React.MouseEvent | React.KeyboardEvent) => {
+    if (e) e.stopPropagation();
+    setIsExplicitlyFlipped((prev) => !prev);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
-      handleFlip();
+      handleExplicitFlip(e);
     }
   };
 
   return (
-    <div className="h-[380px] w-full [perspective:1400px]">
+    <div className="group/cert h-[380px] w-full [perspective:1400px]">
       <div
-        className={`card-flip-container relative h-full w-full rounded-2xl [transform-style:preserve-3d] ${
-          isFlipped ? '[transform:rotateY(180deg)]' : ''
-        }`}
+        className={`card-flip-container relative h-full w-full rounded-2xl [transform-style:preserve-3d] transition-transform duration-500 ease-out ${
+          isExplicitlyFlipped ? '[transform:rotateY(180deg)]' : ''
+        } [@media(hover:hover)_and_(pointer:fine)]:group-hover/cert:[transform:rotateY(180deg)]`}
       >
         {/* FRONT FACE */}
         <div
           className={`absolute inset-0 flex h-full w-full flex-col justify-between rounded-2xl border border-theme-border bg-theme-surface p-6 shadow-theme-sm [backface-visibility:hidden] transition-all duration-200 hover:border-theme-border-strong hover:shadow-theme-md ${
-            isFlipped ? 'pointer-events-none' : ''
+            isExplicitlyFlipped ? 'pointer-events-none' : ''
           }`}
-          aria-hidden={isFlipped}
+          aria-hidden={isExplicitlyFlipped}
         >
           <div>
             {/* Top row: Issuer badge & Date */}
@@ -92,15 +95,15 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
             <button
               ref={viewButtonRef}
               type="button"
-              tabIndex={isFlipped ? -1 : 0}
-              onClick={handleFlip}
+              tabIndex={isExplicitlyFlipped ? -1 : 0}
+              onClick={handleExplicitFlip}
               onKeyDown={handleKeyDown}
-              aria-expanded={isFlipped}
+              aria-expanded={isExplicitlyFlipped}
               aria-label={`View certificate for ${certificate.title}`}
-              className="group inline-flex items-center gap-1.5 rounded-xl border border-theme-btn-secondary-border bg-theme-btn-secondary-bg text-theme-btn-secondary-text px-3.5 py-2 text-xs font-semibold transition-colors hover:bg-gray-50 dark:hover:bg-slate-800 focus-visible:outline-2"
+              className="group/btn inline-flex items-center gap-1.5 rounded-xl border border-theme-btn-secondary-border bg-theme-btn-secondary-bg text-theme-btn-secondary-text px-3.5 py-2 text-xs font-semibold transition-colors hover:bg-gray-50 dark:hover:bg-slate-800 focus-visible:outline-2"
             >
               <span>View certificate</span>
-              <RotateCw className="h-3.5 w-3.5 text-theme-text-muted transition-transform duration-300 group-hover:rotate-180" />
+              <RotateCw className="h-3.5 w-3.5 text-theme-text-muted transition-transform duration-300 group-hover/btn:rotate-180" />
             </button>
           </div>
         </div>
@@ -108,9 +111,9 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
         {/* BACK FACE (Exact same outer dimensions and padding to avoid any layout shift) */}
         <div
           className={`absolute inset-0 flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border border-theme-border bg-theme-surface p-6 shadow-theme-md [backface-visibility:hidden] [transform:rotateY(180deg)] ${
-            !isFlipped ? 'pointer-events-none' : ''
+            !isExplicitlyFlipped ? 'pointer-events-none' : ''
           }`}
-          aria-hidden={!isFlipped}
+          aria-hidden={!isExplicitlyFlipped}
         >
           {/* Back Header: Title & "Flip back" button */}
           <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-theme-border">
@@ -121,8 +124,8 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
             <button
               ref={flipBackButtonRef}
               type="button"
-              tabIndex={isFlipped ? 0 : -1}
-              onClick={handleFlip}
+              tabIndex={isExplicitlyFlipped ? 0 : -1}
+              onClick={handleExplicitFlip}
               onKeyDown={handleKeyDown}
               aria-label={`Flip back to details for ${certificate.title}`}
               className="inline-flex items-center gap-1.5 rounded-lg border border-theme-btn-secondary-border bg-theme-btn-secondary-bg text-theme-btn-secondary-text px-2.5 py-1 text-xs font-semibold transition-colors hover:bg-gray-50 dark:hover:bg-slate-800 focus-visible:outline-2 shrink-0"
@@ -148,7 +151,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
               href={certificate.image}
               target="_blank"
               rel="noopener noreferrer"
-              tabIndex={isFlipped ? 0 : -1}
+              tabIndex={isExplicitlyFlipped ? 0 : -1}
               className="inline-flex items-center gap-1 text-[11px] font-semibold text-theme-link hover:text-theme-text focus-visible:outline-2"
             >
               <span>Open full size</span>
@@ -160,7 +163,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
                 href={certificate.verificationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                tabIndex={isFlipped ? 0 : -1}
+                tabIndex={isExplicitlyFlipped ? 0 : -1}
                 className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
               >
                 <span>Verify online</span>
