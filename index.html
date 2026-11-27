@@ -2,16 +2,32 @@
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236246D9'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='50' fill='%23F7F6F2'>SN</text></svg>" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234338CA'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='50' fill='%23F8F9FC'>SN</text></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sinthuha Nadesan | Software Engineering Portfolio</title>
-    <meta name="description" content="Portfolio of Sinthuha Nadesan, IT undergraduate at University of Moratuwa building web and mobile applications." />
+    <meta name="description" content="Portfolio of Sinthuha Nadesan, BSc (Hons) IT undergraduate at University of Moratuwa. Software Engineering, DevOps, and Mobile Development." />
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Apply theme before first paint to prevent flash (supports ?theme=dark/light query or localStorage) -->
+    <script>
+      (function() {
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const urlTheme = params.get('theme');
+          const stored = urlTheme || localStorage.getItem('portfolio-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (stored === 'dark' || (!stored && prefersDark) || (stored === 'system' && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (_) {}
+      })();
+    </script>
   </head>
-  <body class="bg-canvas text-ink antialiased selection:bg-violet-brand selection:text-white">
+  <body class="bg-theme-bg text-theme-text antialiased selection:bg-theme-accent selection:text-white transition-colors duration-200">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

@@ -12,24 +12,24 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="border-t border-border-subtle bg-canvas py-10 sm:py-12">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 sm:flex-row sm:px-6 lg:px-8">
+    <footer className="border-t border-theme-border bg-theme-bg py-10 transition-colors duration-200">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-4 sm:flex-row sm:px-6 lg:px-8">
         <div className="text-center sm:text-left">
-          <p className="text-sm font-semibold text-ink">{name}</p>
-          <p className="mt-0.5 text-xs text-ink-muted">
+          <p className="text-sm font-bold text-theme-text">{name}</p>
+          <p className="mt-0.5 text-xs text-theme-text-muted">
             IT Undergraduate • {university}
           </p>
         </div>
 
         <div className="flex items-center gap-6">
-          <p className="text-xs text-ink-subtle">
+          <p className="text-xs text-theme-text-subtle">
             © {currentYear} Sinthuha Nadesan. All rights reserved.
           </p>
 
           <a
             href="#"
             onClick={scrollToTop}
-            className="inline-flex items-center gap-1 rounded-lg border border-border-subtle bg-surface px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:border-violet-border hover:text-violet-brand"
+            className="inline-flex items-center gap-1 rounded-lg border border-theme-border bg-theme-surface px-3 py-1.5 text-xs font-medium text-theme-text transition-colors hover:border-theme-border-strong hover:text-theme-accent focus-visible:outline-2 focus-visible:outline-theme-accent"
             aria-label="Back to top of page"
           >
             <span>Top</span>
