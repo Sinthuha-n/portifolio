@@ -13,6 +13,10 @@ export interface Project {
   category: string;
   roleHighlight: string;
   description: string;
+  oneLiner?: string;
+  myContribution?: string;
+  isTeamProject?: boolean;
+  repoLabel?: string;
   featureHighlights: string[];
   tech: string[];
   isFeaturedWide?: boolean;
@@ -129,8 +133,12 @@ export const portfolioData: PortfolioData = {
       id: "planora",
       title: "Planora",
       subtitle: "Full-Stack Project Management Workspace",
-      category: "Lead Feature • Agile Workspace",
+      category: "Agile Workspace",
       roleHighlight: "Kanban Board Module Lead, Backlog & Timeline",
+      isTeamProject: true,
+      repoLabel: "Team repository",
+      oneLiner: "A collaborative Agile workspace combining Kanban execution, backlog prioritization, and milestone roadmap planning.",
+      myContribution: "I built drag-and-drop for the Kanban board and contributed to Backlog and Timeline.",
       description:
         "A collaborative project management workspace modeled after real-world agile engineering flows. Developed in a 5-student team in collaboration with Axzell Innovations, where I took direct module ownership of the interactive drag-and-drop Kanban execution layer and contributed to sprint Backlog grooming and milestone Timeline progress tracking.",
       featureHighlights: [
@@ -181,8 +189,12 @@ export const portfolioData: PortfolioData = {
       id: "checkinn",
       title: "CheckINN",
       subtitle: "Full-Stack Hotel Booking Application",
-      category: "Full-Stack Web Application",
+      category: "Full-Stack Web App",
       roleHighlight: "End-to-End Room Booking Flow, Spring Boot REST & PostgreSQL Flyway",
+      isTeamProject: false,
+      repoLabel: "Repository",
+      oneLiner: "A full-stack hotel booking platform with real-time room availability, transactional reservations, and automated confirmation emails.",
+      myContribution: "I built the end-to-end room booking flow, Spring Boot REST endpoints, and Flyway PostgreSQL migrations.",
       description:
         "A full-stack hotel booking platform featuring multi-criteria room discovery, real-time availability checking, and end-to-end reservation processing. Built with a responsive React frontend and a Spring Boot backend with Flyway-managed PostgreSQL migrations and automated GitHub Actions CI.",
       featureHighlights: [
@@ -211,6 +223,10 @@ export const portfolioData: PortfolioData = {
       subtitle: "Offline-First Tablet & Mobile Interactive Vector Coloring Studio",
       category: "Mobile Application",
       roleHighlight: "React Native / Expo SDK, SVG Closed-Path Canvas & SQLite Autosave",
+      isTeamProject: false,
+      repoLabel: "Repository",
+      oneLiner: "An offline-first mobile coloring studio designed for iPad, Android tablets, and phones with vector SVG region filling.",
+      myContribution: "I built the offline vector SVG canvas, tap-to-color engine, undo/redo history stack, and SQLite autosave.",
       description:
         "A tablet-first, offline coloring studio designed for iPad, Android tablets, and phones. Combines an interactive SVG canvas with closed vector regions, an instant undo/redo action stack, and real-time SQLite autosave for a distraction-free offline experience.",
       featureHighlights: [

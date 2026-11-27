@@ -7,9 +7,9 @@ import {
   Kanban,
   Hotel,
   Palette,
-  CheckCircle2,
+  Users,
+  User,
   Database,
-  Layers,
   GripVertical,
   RotateCcw,
   HardDriveDownload,
@@ -33,43 +33,64 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const hasLive = Boolean(project.liveUrl && project.liveUrl.trim() !== '');
   const hasImage = Boolean(project.imageUrl && project.imageUrl.trim() !== '');
 
-  const getProjectIcon = (id: string) => {
-    switch (id) {
-      case 'planora':
-        return <Kanban className="h-4 w-4 text-theme-text" />;
-      case 'checkinn':
-        return <Hotel className="h-4 w-4 text-theme-text" />;
-      case 'page-bloom':
-        return <Palette className="h-4 w-4 text-theme-text" />;
-      default:
-        return <Layers className="h-4 w-4 text-theme-text" />;
-    }
-  };
-
   return (
     <div
       ref={ref}
       className={`reveal-item h-full ${isInView ? 'reveal-visible' : 'reveal-hidden'}`}
     >
       <article
-        className={`group relative flex flex-col justify-between rounded-2xl border border-theme-border bg-theme-surface p-6 sm:p-8 transition-all duration-200 hover:border-theme-border-strong hover:shadow-theme-md ${
+        className={`group relative flex flex-col justify-between rounded-2xl border border-theme-border bg-theme-surface p-5 sm:p-7 transition-all duration-200 hover:border-theme-border-strong hover:shadow-theme-md ${
           isWide
-            ? 'w-full lg:grid lg:grid-cols-12 lg:gap-8 lg:p-9'
+            ? 'w-full lg:grid lg:grid-cols-12 lg:gap-8 lg:p-8'
             : 'h-full'
         }`}
       >
-        {/* Top / Details Side */}
+        {/* Details Section */}
         <div className={`flex flex-col ${isWide ? 'lg:col-span-7 justify-between' : 'h-full justify-between'}`}>
           <div>
-            {/* Category tag */}
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-theme-border bg-theme-bg px-2.5 py-0.5 text-xs font-medium text-theme-text-muted">
-                {project.category}
-              </span>
-              {isWide && (
-                <span className="inline-flex items-center gap-1 rounded-full border border-theme-border bg-theme-surface px-2.5 py-0.5 text-xs font-semibold text-theme-text">
-                  Lead Feature
+            {/* Top row: Badges & Repo link */}
+            <div className="flex flex-wrap items-center justify-between gap-2.5 mb-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-theme-border bg-theme-bg px-2.5 py-0.5 text-xs font-semibold text-theme-text">
+                  {project.isTeamProject ? (
+                    <>
+                      <Users className="h-3 w-3 text-purple-heading dark:text-purple-dark" />
+                      <span>Team project</span>
+                    </>
+                  ) : (
+                    <>
+                      <User className="h-3 w-3 text-theme-text-muted" />
+                      <span>Personal project</span>
+                    </>
+                  )}
                 </span>
+
+                <span className="inline-flex items-center rounded-full border border-theme-border bg-theme-surface px-2.5 py-0.5 text-xs font-medium text-theme-text-muted">
+                  {project.category}
+                </span>
+
+                {isWide && (
+                  <span className="inline-flex items-center rounded-full border border-purple-200 dark:border-purple-900 bg-purple-50 dark:bg-purple-950/40 px-2.5 py-0.5 text-xs font-semibold text-purple-heading dark:text-purple-dark">
+                    Lead Feature
+                  </span>
+                )}
+              </div>
+
+              {/* Real repo link beside title/header */}
+              {hasGithub && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-bg px-3 py-1 text-xs font-semibold text-theme-link transition-all hover:border-gray-400 hover:text-theme-text shadow-theme-sm ${
+                    isInView ? 'animate-repo-pulse' : ''
+                  }`}
+                  aria-label={`${project.title} ${project.repoLabel || 'Repository'}`}
+                >
+                  <Github className="h-3.5 w-3.5" />
+                  <span>{project.repoLabel || 'Repository'}</span>
+                  <ExternalLink className="h-3 w-3 text-theme-text-muted" />
+                </a>
               )}
             </div>
 
@@ -78,72 +99,48 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               {project.title}
             </h3>
 
-            {/* Subtitle */}
-            <p className="mt-1 text-xs sm:text-sm font-medium text-theme-text-muted">
-              {project.subtitle}
+            {/* One-Sentence Summary */}
+            <p className="mt-2 text-sm sm:text-base text-theme-text leading-relaxed font-normal">
+              {project.oneLiner || project.description}
             </p>
 
-            {/* Role Highlight Callout */}
-            <div className="mt-3 inline-flex items-center gap-2 rounded-lg border border-theme-border bg-theme-bg px-3 py-1.5 text-xs sm:text-sm font-medium text-theme-text">
-              {getProjectIcon(project.id)}
-              <span>{project.roleHighlight}</span>
+            {/* Scannable "My contribution" line */}
+            <div className="mt-3.5 rounded-xl border border-theme-border bg-theme-bg/60 p-3 text-xs sm:text-sm text-theme-text">
+              <div className="flex items-start gap-2">
+                <span className="font-bold text-purple-heading dark:text-purple-dark shrink-0">
+                  My contribution:
+                </span>
+                <span className="font-medium text-theme-text leading-relaxed">
+                  {project.myContribution || project.roleHighlight}
+                </span>
+              </div>
             </div>
-
-            {/* Main description */}
-            <p className="mt-4 text-sm sm:text-base text-theme-text leading-relaxed font-normal">
-              {project.description}
-            </p>
-
-            {/* Feature Highlights */}
-            {project.featureHighlights && project.featureHighlights.length > 0 && (
-              <ul className="mt-4 space-y-2 text-xs sm:text-sm text-theme-text-muted">
-                {project.featureHighlights.map((feat, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-theme-text-muted shrink-0 mt-0.5" />
-                    <span>{feat}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
 
-          {/* Bottom Actions & Tech Stack (Aligned at bottom) */}
-          <div className="mt-6 pt-5 border-t border-theme-border">
-            <div className="flex flex-wrap gap-1.5 mb-4">
+          {/* Bottom Actions & Tech Stack */}
+          <div className="mt-5 pt-4 border-t border-theme-border">
+            <div className="flex flex-wrap gap-1.5 mb-3.5">
               {project.tech.map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-md border border-theme-border bg-theme-bg px-2.5 py-1 text-xs font-medium text-theme-text-muted"
+                  className="rounded-md border border-theme-border bg-theme-bg px-2.5 py-0.5 text-xs font-medium text-theme-text-muted"
                 >
                   {tech}
                 </span>
               ))}
             </div>
 
-            {/* Action Buttons: Near-black primary button, white secondary buttons */}
+            {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-3">
               {project.caseStudy && onOpenCaseStudy && (
                 <button
                   type="button"
                   onClick={onOpenCaseStudy}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-theme-btn-primary-bg text-theme-btn-primary-text px-4 py-2.5 text-xs font-semibold shadow-theme-sm transition-all hover:opacity-90 focus-visible:outline-2"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-theme-btn-primary-bg text-theme-btn-primary-text px-4 py-2 text-xs font-semibold shadow-theme-sm transition-all hover:opacity-90 focus-visible:outline-2"
                 >
                   <BookOpen className="h-3.5 w-3.5" />
                   <span>Read Case Study</span>
                 </button>
-              )}
-
-              {hasGithub && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-theme-btn-secondary-border bg-theme-btn-secondary-bg text-theme-btn-secondary-text px-3.5 py-2 text-xs font-semibold transition-colors hover:bg-gray-50 dark:hover:bg-slate-800 focus-visible:outline-2"
-                  aria-label={`${project.title} on GitHub`}
-                >
-                  <Github className="h-3.5 w-3.5" />
-                  <span>View Code</span>
-                </a>
               )}
 
               {hasLive && (
@@ -162,24 +159,24 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
 
-        {/* Visual Graphic Representation */}
+        {/* Compact Visual Graphic Representation */}
         {isWide ? (
-          <div className="mt-6 lg:mt-0 lg:col-span-5 flex flex-col justify-center">
+          <div className="mt-5 lg:mt-0 lg:col-span-5 flex flex-col justify-center">
             {hasImage ? (
               <div className="overflow-hidden rounded-xl border border-theme-border bg-theme-bg shadow-theme-sm">
                 <img
                   src={project.imageUrl}
                   alt={`Screenshot of ${project.title}`}
-                  className="w-full max-h-[380px] object-cover object-top transition-transform duration-300 hover:scale-[1.02]"
+                  className="w-full max-h-[240px] sm:max-h-[260px] object-cover object-top transition-transform duration-300 hover:scale-[1.02]"
+                  loading="lazy"
                 />
               </div>
             ) : (
-              /* Clean, restrained Kanban UI preview (no gradients, no purple shadows) */
-              <div className="flex flex-col justify-between rounded-xl border border-theme-border bg-theme-bg p-5 shadow-theme-sm">
-                <div className="flex items-center justify-between pb-3 border-b border-theme-border">
+              <div className="flex flex-col justify-between rounded-xl border border-theme-border bg-theme-bg p-4 shadow-theme-sm">
+                <div className="flex items-center justify-between pb-2.5 border-b border-theme-border">
                   <div className="flex items-center gap-2">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-theme-border bg-theme-surface">
-                      <Kanban className="h-3.5 w-3.5 text-theme-text" />
+                    <div className="flex h-6 w-6 items-center justify-center rounded-lg border border-theme-border bg-theme-surface">
+                      <Kanban className="h-3 w-3 text-theme-text" />
                     </div>
                     <div>
                       <p className="text-xs font-bold text-theme-text">Planora Workspace</p>
@@ -191,94 +188,93 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   </span>
                 </div>
 
-                {/* Columns Simulation */}
-                <div className="my-4 grid grid-cols-2 gap-2.5 text-xs">
-                  <div className="rounded-lg border border-theme-border bg-theme-surface p-2.5">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-semibold text-[11px] text-theme-text">Backlog</span>
-                      <span className="rounded bg-theme-bg px-1.5 py-0.5 text-[10px] text-theme-text-muted">3</span>
+                <div className="my-3 grid grid-cols-2 gap-2 text-xs">
+                  <div className="rounded-lg border border-theme-border bg-theme-surface p-2">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-semibold text-[10px] text-theme-text">Backlog</span>
+                      <span className="rounded bg-theme-bg px-1 py-0.5 text-[9px] text-theme-text-muted">3</span>
                     </div>
-                    <div className="rounded border border-theme-border bg-theme-bg p-2 text-[11px] text-theme-text-muted">
+                    <div className="rounded border border-theme-border bg-theme-bg p-1.5 text-[10px] text-theme-text-muted">
                       Milestone Timeline
                     </div>
                   </div>
 
-                  <div className="rounded-lg border border-theme-border-strong bg-theme-surface p-2.5">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-semibold text-[11px] text-theme-text">In Progress</span>
-                      <span className="rounded bg-theme-bg px-1.5 py-0.5 text-[10px] font-bold text-theme-text">1</span>
+                  <div className="rounded-lg border border-theme-border-strong bg-theme-surface p-2">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-semibold text-[10px] text-theme-text">In Progress</span>
+                      <span className="rounded bg-theme-bg px-1 py-0.5 text-[9px] font-bold text-theme-text">1</span>
                     </div>
-                    <div className="rounded border border-theme-border bg-theme-bg p-2 text-[11px] font-medium text-theme-text">
+                    <div className="rounded border border-theme-border bg-theme-bg p-1.5 text-[10px] font-medium text-theme-text">
                       <div className="flex items-center justify-between">
                         <span>Drag & Drop Board</span>
-                        <GripVertical className="h-3 w-3 text-theme-text-muted shrink-0" />
+                        <GripVertical className="h-2.5 w-2.5 text-theme-text-muted shrink-0" />
                       </div>
-                      <div className="mt-1 text-[9px] text-theme-text-muted">
+                      <div className="mt-0.5 text-[9px] text-theme-text-muted">
                         ● My Lead Module
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-theme-border flex items-center justify-between text-[11px] text-theme-text-muted">
-                  <span>Optimistic State Synchronization</span>
-                  <span className="text-[10px] italic">Verified notes</span>
+                <div className="pt-2 border-t border-theme-border flex items-center justify-between text-[10px] text-theme-text-muted">
+                  <span>Optimistic State Sync</span>
+                  <span className="text-[9px] italic">Verified notes</span>
                 </div>
               </div>
             )}
           </div>
         ) : (
-          /* Secondary Cards Visual Representation */
-          <div className="mt-6">
+          <div className="mt-5">
             {hasImage ? (
               <div className="overflow-hidden rounded-xl border border-theme-border bg-theme-bg shadow-theme-sm">
                 <img
                   src={project.imageUrl}
                   alt={`Screenshot of ${project.title}`}
-                  className="h-48 sm:h-52 w-full object-cover object-top transition-transform duration-300 hover:scale-[1.02]"
+                  className="h-40 sm:h-44 w-full object-cover object-top transition-transform duration-300 hover:scale-[1.02]"
+                  loading="lazy"
                 />
               </div>
             ) : project.id === 'checkinn' ? (
-              <div className="rounded-xl border border-theme-border bg-theme-bg p-4">
+              <div className="rounded-xl border border-theme-border bg-theme-bg p-3.5">
                 <div className="flex items-center justify-between pb-2 border-b border-theme-border">
                   <div className="flex items-center gap-2">
-                    <Hotel className="h-4 w-4 text-theme-text" />
+                    <Hotel className="h-3.5 w-3.5 text-theme-text" />
                     <span className="text-xs font-bold text-theme-text">CheckINN Room Discovery</span>
                   </div>
-                  <span className="rounded bg-theme-surface border border-theme-border px-2 py-0.5 text-[10px] font-medium text-theme-text">
+                  <span className="rounded bg-theme-surface border border-theme-border px-1.5 py-0.5 text-[9px] font-medium text-theme-text">
                     200 OK
                   </span>
                 </div>
-                <div className="mt-2.5 space-y-1.5 text-[11px] font-mono text-theme-text-muted">
+                <div className="mt-2 space-y-1 text-[10px] font-mono text-theme-text-muted">
                   <div className="flex items-center justify-between">
                     <span>POST /api/v1/bookings</span>
                     <span className="text-theme-text font-semibold">Spring Boot</span>
                   </div>
-                  <div className="flex items-center justify-between text-[10px] text-theme-text-subtle">
+                  <div className="flex items-center justify-between text-[9px] text-theme-text-subtle">
                     <span className="flex items-center gap-1">
-                      <Database className="h-3 w-3 text-theme-text-muted" /> PostgreSQL ACID Model
+                      <Database className="h-2.5 w-2.5 text-theme-text-muted" /> PostgreSQL ACID Model
                     </span>
                     <span>React UI</span>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="rounded-xl border border-theme-border bg-theme-bg p-4">
+              <div className="rounded-xl border border-theme-border bg-theme-bg p-3.5">
                 <div className="flex items-center justify-between pb-2 border-b border-theme-border">
                   <div className="flex items-center gap-2">
-                    <Palette className="h-4 w-4 text-theme-text" />
+                    <Palette className="h-3.5 w-3.5 text-theme-text" />
                     <span className="text-xs font-bold text-theme-text">Page-Bloom Mobile Engine</span>
                   </div>
-                  <div className="flex items-center gap-1 text-[10px] font-medium text-theme-text">
-                    <HardDriveDownload className="h-3 w-3" />
+                  <div className="flex items-center gap-1 text-[9px] font-medium text-theme-text">
+                    <HardDriveDownload className="h-2.5 w-2.5" />
                     <span>SQLite Autosave</span>
                   </div>
                 </div>
-                <div className="mt-2.5 flex items-center justify-between text-[11px] text-theme-text-muted">
-                  <span className="flex items-center gap-1 font-mono text-[10px]">
-                    <RotateCcw className="h-3 w-3 text-theme-text-muted" /> Undo/Redo Action Stack
+                <div className="mt-2 flex items-center justify-between text-[10px] text-theme-text-muted">
+                  <span className="flex items-center gap-1 font-mono text-[9px]">
+                    <RotateCcw className="h-2.5 w-2.5 text-theme-text-muted" /> Undo/Redo Action Stack
                   </span>
-                  <span className="rounded bg-theme-surface border border-theme-border px-2 py-0.5 text-[10px] font-medium">
+                  <span className="rounded bg-theme-surface border border-theme-border px-1.5 py-0.5 text-[9px] font-medium">
                     React Native & Expo
                   </span>
                 </div>

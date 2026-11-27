@@ -1,12 +1,14 @@
-import React from 'react';
-import { portfolioData } from '../data/portfolioData';
+import React, { useState } from 'react';
+import { portfolioData, Certificate } from '../data/portfolioData';
 import { CertificateCard } from './CertificateCard';
+import { CertificateLightboxModal } from './CertificateLightboxModal';
 import { useInView } from '../hooks/useInView';
 import { Layers, Smartphone, GitBranch, Sparkles } from 'lucide-react';
 
 export const SkillsAndCertifications: React.FC = () => {
   const { certificates, skills } = portfolioData;
   const { ref, isInView } = useInView();
+  const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
 
   const getGroupIcon = (category: string) => {
     switch (category) {
@@ -96,7 +98,7 @@ export const SkillsAndCertifications: React.FC = () => {
                   Verified Certifications
                 </h3>
                 <p className="mt-1 text-xs sm:text-sm text-theme-text-muted">
-                  Interactive 3D cards — click “View certificate” or press Space / Enter to inspect credential images.
+                  Hover or click any certificate to inspect credential image. Use “Open full size” for an uncropped modal preview.
                 </p>
               </div>
 
@@ -108,12 +110,22 @@ export const SkillsAndCertifications: React.FC = () => {
             {/* Responsive 3-Column Desktop, 2-Column Tablet, 1-Column Mobile Flip Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
               {certificates.map((cert) => (
-                <CertificateCard key={cert.id} certificate={cert} />
+                <CertificateCard
+                  key={cert.id}
+                  certificate={cert}
+                  onOpenFullSize={(c) => setSelectedCert(c)}
+                />
               ))}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Certificate Full Size Lightbox Modal */}
+      <CertificateLightboxModal
+        certificate={selectedCert}
+        onClose={() => setSelectedCert(null)}
+      />
     </section>
   );
 };

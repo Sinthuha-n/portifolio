@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
+import { ResumeModalProvider, useResumeModal } from './context/ResumeModalContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { FeaturedWork } from './components/FeaturedWork';
@@ -9,10 +10,12 @@ import { Writing } from './components/Writing';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { PlanoraCaseStudyModal } from './components/PlanoraCaseStudyModal';
+import { ResumeModal } from './components/ResumeModal';
 import { portfolioData } from './data/portfolioData';
 
 export const AppContent: React.FC = () => {
   const [caseStudyOpen, setCaseStudyOpen] = useState(false);
+  const { isResumeOpen, closeResume } = useResumeModal();
   const planoraProject = portfolioData.projects.find((p) => p.id === 'planora');
 
   return (
@@ -28,6 +31,7 @@ export const AppContent: React.FC = () => {
       </main>
       <Footer />
 
+      {/* Planora Case Study Modal */}
       {planoraProject?.caseStudy && (
         <PlanoraCaseStudyModal
           isOpen={caseStudyOpen}
@@ -36,6 +40,13 @@ export const AppContent: React.FC = () => {
           githubUrl={planoraProject.githubUrl}
         />
       )}
+
+      {/* Same-Page Résumé Modal with Inline PDF Embed & Fallback */}
+      <ResumeModal
+        isOpen={isResumeOpen}
+        onClose={closeResume}
+        pdfUrl={portfolioData.personal.resumeUrl || '/documents/Sinthuha_Nadesan_SoftwareEngineering_Intern_CV.pdf'}
+      />
     </div>
   );
 };
@@ -43,7 +54,9 @@ export const AppContent: React.FC = () => {
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <AppContent />
+      <ResumeModalProvider>
+        <AppContent />
+      </ResumeModalProvider>
     </ThemeProvider>
   );
 };
