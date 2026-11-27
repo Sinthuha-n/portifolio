@@ -1,16 +1,19 @@
 import React from 'react';
 import { portfolioData } from '../data/portfolioData';
+import { useMediumArticles } from '../hooks/useMediumArticles';
 import { useInView } from '../hooks/useInView';
 import { ArrowUpRight, BookOpen, Newspaper, ExternalLink } from 'lucide-react';
 
 export const Writing: React.FC = () => {
-  const { writing, personal } = portfolioData;
+  const { personal } = portfolioData;
+  const { articles } = useMediumArticles();
   const { ref, isInView } = useInView();
 
-  if (!writing || writing.length === 0) return null;
+  const displayArticles = articles && articles.length > 0 ? articles : portfolioData.writing;
+  if (!displayArticles || displayArticles.length === 0) return null;
 
-  const featuredArticle = writing[0];
-  const sideArticles = writing.slice(1, 3);
+  const featuredArticle = displayArticles[0];
+  const sideArticles = displayArticles.slice(1, 3);
 
   return (
     <section id="writing" className="scroll-mt-20 py-16 sm:py-20 border-b border-theme-border bg-theme-bg">
@@ -70,7 +73,7 @@ export const Writing: React.FC = () => {
 
                       {/* Lead Subtitle / Byline */}
                       <p className="mt-3 text-xs font-serif italic text-theme-text-muted">
-                        By Sinthuha Nadesan • Engineering Pipelines & Continuous Deployment
+                        By {featuredArticle.author || 'Sinthuha Nadesan'} • {featuredArticle.publication}
                       </p>
 
                       {/* Excerpt */}
@@ -81,10 +84,12 @@ export const Writing: React.FC = () => {
                       {/* Editorial Callout Box */}
                       <div className="my-5 rounded-xl border border-neutral-300/80 dark:border-slate-700 bg-[#F7F4EB] dark:bg-slate-800/60 p-4 text-xs font-mono text-theme-text-muted leading-relaxed">
                         <p className="font-bold text-neutral-900 dark:text-neutral-100 mb-1">
-                          Key Coverage:
+                          Core Topics:
                         </p>
                         <p>
-                          Automated GitHub Actions workflows, JDK 21 Maven integration tests, secret leakage hygiene checks, and zero-downtime release gates.
+                          {featuredArticle.tags && featuredArticle.tags.length > 0
+                            ? featuredArticle.tags.map((t) => `#${t}`).join('  •  ')
+                            : 'Software Engineering  •  Architecture  •  Best Practices'}
                         </p>
                       </div>
                     </div>

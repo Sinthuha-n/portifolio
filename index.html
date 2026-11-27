@@ -10,9 +10,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <!-- Apply theme before first paint: Defaults to Light for first-time visitors, respects saved preference & ?theme query -->
+    <!-- Apply theme and scroll restoration before first paint: Defaults to Light for first-time visitors, respects saved preference & ?theme query -->
     <script>
       (function() {
+        // Prevent browser from restoring stale scroll position down the page on reload
+        if ('scrollRestoration' in history) {
+          history.scrollRestoration = 'manual';
+        }
+
+        // On full reload of the homepage: clear stale section hash and reset scroll to top immediately (zero jump)
+        try {
+          const navEntries = performance.getEntriesByType && performance.getEntriesByType('navigation');
+          const isReload = (navEntries && navEntries[0] && navEntries[0].type === 'reload') ||
+                           (performance.navigation && performance.navigation.type === 1);
+          if (isReload) {
+            if (window.location.hash) {
+              history.replaceState(null, '', window.location.pathname + window.location.search);
+            }
+            window.scrollTo(0, 0);
+          }
+        } catch (_) {}
+
         try {
           const params = new URLSearchParams(window.location.search);
           const urlTheme = params.get('theme');
