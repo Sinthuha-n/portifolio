@@ -1,6 +1,6 @@
 import React from 'react';
 import { portfolioData } from '../data/portfolioData';
-import { ArrowDown, Github, Linkedin, Mail, GraduationCap, MapPin, Sparkles } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, Mail, GraduationCap, MapPin, Sparkles, FileText } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   const {
@@ -14,6 +14,7 @@ export const Hero: React.FC = () => {
     github,
     linkedin,
     email,
+    resumeUrl,
     portrait,
     portraitAlt,
   } = portfolioData.personal;
@@ -85,6 +86,19 @@ export const Hero: React.FC = () => {
                 <span>View selected work</span>
                 <ArrowDown className="h-4 w-4 transition-transform duration-200 group-hover:translate-y-0.5" />
               </a>
+
+              {/* Resume download button if available */}
+              {resumeUrl && (
+                <a
+                  href={resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl border border-theme-btn-secondary-border bg-theme-btn-secondary-bg text-theme-btn-secondary-text px-5 py-3.5 text-sm sm:text-base font-semibold transition-all hover:bg-gray-50 dark:hover:bg-slate-800 shadow-theme-sm focus-visible:outline-2"
+                >
+                  <FileText className="h-4 w-4 text-theme-text-muted" />
+                  <span>Résumé</span>
+                </a>
+              )}
 
               {/* Secondary buttons: White with gray border in light mode */}
               <a

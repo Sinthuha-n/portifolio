@@ -166,11 +166,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         {isWide ? (
           <div className="mt-6 lg:mt-0 lg:col-span-5 flex flex-col justify-center">
             {hasImage ? (
-              <img
-                src={project.imageUrl}
-                alt={`Screenshot of ${project.title}`}
-                className="w-full rounded-xl object-cover border border-theme-border"
-              />
+              <div className="overflow-hidden rounded-xl border border-theme-border bg-theme-bg shadow-theme-sm">
+                <img
+                  src={project.imageUrl}
+                  alt={`Screenshot of ${project.title}`}
+                  className="w-full max-h-[380px] object-cover object-top transition-transform duration-300 hover:scale-[1.02]"
+                />
+              </div>
             ) : (
               /* Clean, restrained Kanban UI preview (no gradients, no purple shadows) */
               <div className="flex flex-col justify-between rounded-xl border border-theme-border bg-theme-bg p-5 shadow-theme-sm">
@@ -229,11 +231,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           /* Secondary Cards Visual Representation */
           <div className="mt-6">
             {hasImage ? (
-              <img
-                src={project.imageUrl}
-                alt={`Screenshot of ${project.title}`}
-                className="w-full rounded-xl object-cover border border-theme-border"
-              />
+              <div className="overflow-hidden rounded-xl border border-theme-border bg-theme-bg shadow-theme-sm">
+                <img
+                  src={project.imageUrl}
+                  alt={`Screenshot of ${project.title}`}
+                  className="h-48 sm:h-52 w-full object-cover object-top transition-transform duration-300 hover:scale-[1.02]"
+                />
+              </div>
             ) : project.id === 'checkinn' ? (
               <div className="rounded-xl border border-theme-border bg-theme-bg p-4">
                 <div className="flex items-center justify-between pb-2 border-b border-theme-border">

@@ -50,6 +50,7 @@ export interface SkillCategory {
 export interface CicdDetails {
   configured: boolean;
   summary: string;
+  trigger?: string;
   checks: string[];
   workflowPath?: string;
   workflowUrl?: string;
@@ -99,22 +100,24 @@ export const portfolioData: PortfolioData = {
     github: "https://github.com/Sinthuha-n",
     linkedin: "https://www.linkedin.com/in/sinthuha-nadesan-16nn11",
     medium: "https://medium.com/@sinthuhanadesan",
-    resumeUrl: "", // Current resume PDF link; kept hidden until active PDF URL is provided
+    resumeUrl: "/documents/Sinthuha_Nadesan_SoftwareEngineering_Intern_CV.pdf",
     portrait: "/images/portrait.jpg",
     portraitAlt: "Portrait of Sinthuha Nadesan",
   },
 
   cicd: {
-    configured: false, // Kept out of the published UI until verified in repository
+    configured: true,
     summary:
-      "Continuous integration pipeline running automated linting, strict TypeScript type validation, and production bundle builds on pull requests and pushes.",
+      "Automated continuous integration pipelines configured with GitHub Actions across full-stack and mobile projects, enforcing automated backend/frontend test execution, secret hygiene, type validation, and production bundle builds.",
+    trigger: "Pushes and pull requests to main (with PR concurrency cancellation)",
     checks: [
-      "ESLint code quality & React best-practice checks",
-      "TypeScript compiler typecheck (tsc -b)",
-      "Vite optimized production bundle compilation",
+      "Backend (Java 21): ./mvnw test -Dspring.profiles.active=test & ./mvnw package",
+      "Frontend (Node 20): npm ci, ESLint, TypeScript tsc -b, & Vitest",
+      "Security Hygiene: Automated verification preventing tracked secrets or .env files",
+      "Production Optimization: Optimized bundle compile verification with Vite",
     ],
     workflowPath: ".github/workflows/ci.yml",
-    workflowUrl: "",
+    workflowUrl: "https://medium.com/@sinthuhanadesan/what-happens-after-you-push-code-the-ci-cd-journey-047fba13f38f",
   },
 
   projects: [
@@ -123,48 +126,50 @@ export const portfolioData: PortfolioData = {
       title: "Planora",
       subtitle: "Full-Stack Project Management Workspace",
       category: "Lead Feature • Agile Workspace",
-      roleHighlight: "Drag-and-Drop Kanban Board Lead, Backlog & Timeline",
+      roleHighlight: "Kanban Board Module Lead, Backlog & Timeline",
       description:
-        "A collaborative project management workspace modeled after real-world agile engineering flows. Built as a team project where I took primary ownership of the interactive drag-and-drop Kanban board and contributed directly to sprint Backlog grooming and milestone Timeline progress tracking.",
+        "A collaborative project management workspace modeled after real-world agile engineering flows. Developed in a 5-student team in collaboration with Axzell Innovations, where I took direct module ownership of the interactive drag-and-drop Kanban execution layer and contributed to sprint Backlog grooming and milestone Timeline progress tracking.",
       featureHighlights: [
         "Architected smooth drag-and-drop task card interactions across Kanban columns with reactive state synchronization",
-        "Contributed to core planning workflows including Backlog prioritization and milestone Timeline scheduling",
+        "Contributed to core planning workflows including sprint Backlog prioritization and milestone Timeline scheduling",
         "Engineered modular React component architecture optimized for fast re-renders during rapid state changes",
       ],
       caseStudy: {
         problem:
-          "Student and startup engineering teams frequently struggle with fragmented coordination across disconnected chat threads, spreadsheets, and issue trackers. Planora consolidates agile sprint planning, active board execution, status visibility, and milestone deadlines into one integrated application.",
+          "Student and startup engineering teams face fragmented communication and siloed planning tools when tracking iterative agile sprints. Planora was developed in collaboration with Axzell Innovations as an integrated workspace unifying agile sprint Backlog grooming, interactive Kanban execution, and timeline dependency tracking.",
         teamContext:
-          "Collaborative engineering project. I served as the frontend state and interaction lead for the Kanban execution layer while coordinating with teammates on backend API contracts and shared data schemas.",
+          "Collaborative 5-student engineering team with Axzell Innovations. I served as the frontend state and interaction lead for the Kanban execution layer while coordinating with teammates on backend API contracts, PostgreSQL schemas, and WebSocket channels.",
         myContributions: [
-          "Sole ownership of the drag-and-drop Kanban board implementation, handling column status transitions, card reordering, and drop target styling.",
-          "Co-developed the sprint Backlog view for queueing upcoming user stories and assigning initial estimates.",
-          "Contributed to the Timeline roadmap view to track task dependencies and milestone completion against calendar targets.",
-          "Established predictable component props contracts and optimistic client-side state transformations.",
+          "Sole ownership of the interactive drag-and-drop Kanban board (frontend/web/app/(project)/kanban/ and KanbanController.java), implementing custom column creation, status color coding, and Work-In-Progress (WIP) limit enforcement.",
+          "Co-developed the sprint Backlog view for queueing unscheduled user stories and reordering sprint backlog items via /reorder and /kanban/move.",
+          "Contributed to the date-based Timeline (Gantt-style) roadmap view for milestone scheduling, drag-to-reschedule, and lightweight PATCH /{taskId}/dates updates.",
+          "Integrated project Figma design URL embedding in workspace settings and top navigation.",
         ],
         technicalDecision:
-          "Rather than blocking UI interactions on asynchronous backend requests, I implemented an optimistic client-side state update strategy with a normalized column-to-task index map. When a card is dragged, the UI updates its column and order index immediately. The state engine then dispatches the update to the Spring Boot REST API in the background. If a network disruption occurs, the board rolls back seamlessly to the snapshot with an accessible error notification. This keeps the drag interaction buttery smooth at 60fps across touch and mouse input.",
+          "To guarantee 60fps drag-and-drop interactions across mouse and touch, I architected an optimistic client-side UI update strategy with automated snapshot rollback on failure. When cards or columns move, the client updates state immediately before dispatching background REST updates. For multi-user concurrency, task entities are protected with Hibernate's @Version optimistic locking to reject stale conflicting writes with HTTP 409 Conflict rather than silently clobbering updates. Furthermore, every successful mutation broadcasts across a STOMP WebSocket channel (/topic/project/{id}/tasks), allowing all connected team members' boards to synchronize in real time without polling or manual refreshes.",
         techStack: [
+          "Spring Boot 3",
+          "Next.js",
           "React",
           "TypeScript",
           "Tailwind CSS",
-          "Spring Boot",
           "PostgreSQL",
-          "REST APIs",
-          "Drag & Drop Engine",
+          "STOMP WebSockets",
+          "JPA / Hibernate",
+          "Figma Integration",
         ],
       },
       tech: [
         "React",
         "TypeScript",
-        "Tailwind CSS",
-        "Spring Boot",
+        "Spring Boot 3",
         "PostgreSQL",
-        "Drag & Drop",
-        "REST APIs",
+        "STOMP WebSockets",
+        "Tailwind CSS",
+        "Drag & Drop Engine",
       ],
       isFeaturedWide: true,
-      imageUrl: "", // Wide Kanban screenshot when supplied
+      imageUrl: "/images/projects/planora-kanban.png",
       githubUrl: "https://github.com/Sinthuha-n",
       liveUrl: "",
     },
@@ -173,57 +178,68 @@ export const portfolioData: PortfolioData = {
       title: "CheckINN",
       subtitle: "Full-Stack Hotel Booking Application",
       category: "Full-Stack Web Application",
-      roleHighlight: "Room Discovery, Reservation Workflow & REST API",
+      roleHighlight: "End-to-End Room Booking Flow, Spring Boot REST & PostgreSQL Flyway",
       description:
-        "A comprehensive hotel discovery and room reservation platform. Built with a responsive React and TypeScript frontend, robust Spring Boot RESTful services, and a PostgreSQL database enforcing relational constraints for transactional room availability.",
+        "A full-stack hotel booking platform featuring multi-criteria room discovery, real-time availability checking, and end-to-end reservation processing. Built with a responsive React frontend and a Spring Boot backend with Flyway-managed PostgreSQL migrations and automated GitHub Actions CI.",
       featureHighlights: [
-        "Engineered end-to-end reservation flow connecting typed React UI with Spring Boot REST services",
-        "Designed relational database schema in PostgreSQL with transactional guarantees for room availability",
-        "Implemented robust input validation, status filters, and clean separation between controller, service, and persistence layers",
+        "Frontend (React + TypeScript + Vite): Room search filtering by date range & guest count, responsive reservation forms, and booking history management.",
+        "Backend (Spring Boot 3 + Java 21): REST controllers for room availability and booking creation with transactional double-booking prevention.",
+        "Event-Driven Notifications: Asynchronous booking confirmation listeners (BookingEmailListener, BookingConfirmedEvent) for decoupling workflows.",
+        "Database & DevOps: Flyway versioned migrations (V1-V5) across PostgreSQL and H2 test profiles, validated via automated GitHub Actions CI.",
       ],
       tech: [
         "React",
         "TypeScript",
-        "Spring Boot",
+        "Spring Boot 3",
         "PostgreSQL",
-        "REST APIs",
+        "Flyway",
+        "GitHub Actions CI",
         "Tailwind CSS",
       ],
       isFeaturedWide: false,
-      imageUrl: "", // Place verified screenshot when ready
+      imageUrl: "/images/projects/checkinn-courtyard.jpg",
       githubUrl: "https://github.com/Sinthuha-n/SpringBoot",
       liveUrl: "",
     },
     {
       id: "page-bloom",
       title: "Page-Bloom",
-      subtitle: "Offline-First Interactive Vector Coloring App",
+      subtitle: "Offline-First Tablet & Mobile Interactive Vector Coloring Studio",
       category: "Mobile Application",
-      roleHighlight: "React Native / Expo, Offline Canvas & SQLite",
+      roleHighlight: "React Native / Expo SDK, SVG Closed-Path Canvas & SQLite Autosave",
       description:
-        "An offline-capable mobile coloring application designed for tablet and mobile screens. Features responsive touch region-based coloring, a reliable multi-step undo and redo history stack, and automated local autosave powered by SQLite for continuous offline work.",
+        "A tablet-first, offline coloring studio designed for iPad, Android tablets, and phones. Combines an interactive SVG canvas with closed vector regions, an instant undo/redo action stack, and real-time SQLite autosave for a distraction-free offline experience.",
       featureHighlights: [
-        "Built with React Native and Expo for smooth cross-platform touch interactions and responsive layouts",
-        "Implemented SVG vector canvas enabling precision region-based tap-to-color fills",
-        "Engineered custom undo/redo state history stack for instant coloring rollback and redo",
-        "Integrated local SQLite persistence to autosave user progress seamlessly without requiring an internet connection",
+        "Offline Coloring: Tablet-first SVG vector canvas with closed path regions (Z command) enabling instant, precision tap-to-color fills without requiring an internet connection.",
+        "Undo / Redo Stack: In-memory action history stack tracking individual region transitions, allowing users to step backward and forward effortlessly without visual stutter.",
+        "SQLite Autosave: Automatic local persistence using expo-sqlite that continuously saves artwork versions, palettes, and page progress, restoring work instantly on launch.",
+        "Themed Collections & Export: Complete multi-page book catalog ('Trinco Beach Days') with clean PNG/SVG and multi-page custom book PDF exports.",
       ],
       tech: [
         "React Native",
-        "Expo",
+        "Expo SDK",
         "SQLite Autosave",
-        "SVG Canvas",
+        "SVG Vector Canvas",
         "Undo / Redo Stack",
         "TypeScript",
       ],
       isFeaturedWide: false,
-      imageUrl: "", // Place verified tablet screenshot when ready
+      imageUrl: "/images/projects/page-bloom-tablet.png",
       githubUrl: "https://github.com/Sinthuha-n",
       liveUrl: "",
     },
   ],
 
   writing: [
+    {
+      title: "What Happens After You Push Code? The CI/CD Journey",
+      publication: "Medium",
+      url: "https://medium.com/@sinthuhanadesan/what-happens-after-you-push-code-the-ci-cd-journey-047fba13f38f",
+      readTime: "4 min read",
+      description:
+        "An introductory breakdown detailing how Continuous Integration and Continuous Delivery/Deployment (CI/CD) pipelines automate testing, linting, type safety, and release gates from commit to production.",
+      tags: ["CI/CD", "DevOps", "Automation", "GitHub Actions"],
+    },
     {
       title: "Why Version Control Is the Backbone of Software Development?",
       publication: "LinkIT Intecs",

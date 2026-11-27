@@ -1,7 +1,7 @@
 import React from 'react';
 import { portfolioData } from '../data/portfolioData';
 import { ProjectCard } from './ProjectCard';
-import { GitBranch, CheckCircle2 } from 'lucide-react';
+import { GitBranch, CheckCircle2, ArrowUpRight, Zap } from 'lucide-react';
 
 interface FeaturedWorkProps {
   onOpenPlanoraCaseStudy: () => void;
@@ -49,25 +49,59 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({ onOpenPlanoraCaseStu
             ))}
           </div>
 
-          {/* 3. Conditional CI/CD Entry (Kept out of UI until verified) */}
+          {/* 3. Verified DevOps & CI/CD Entry */}
           {cicd?.configured && (
-            <div className="mt-8 rounded-2xl border border-theme-border bg-theme-surface p-6 shadow-theme-sm">
-              <div className="flex items-center gap-2.5 text-sm font-bold text-theme-text">
-                <GitBranch className="h-4 w-4 text-theme-text-muted" />
-                <span>Build & Delivery Pipeline</span>
+            <div className="mt-8 rounded-2xl border border-theme-border bg-theme-surface p-6 sm:p-7 shadow-theme-sm text-left">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-theme-border bg-theme-bg text-theme-text">
+                    <GitBranch className="h-4 w-4" />
+                  </span>
+                  <div>
+                    <h3 className="text-sm sm:text-base font-bold text-purple-heading dark:text-purple-dark">
+                      Automated CI/CD Delivery Pipelines
+                    </h3>
+                    <p className="text-xs text-theme-text-muted">
+                      Configured across CheckINN and Page-Bloom repositories
+                    </p>
+                  </div>
+                </div>
+
+                {cicd.workflowUrl && (
+                  <a
+                    href={cicd.workflowUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-theme-border bg-theme-bg px-3 py-1.5 text-xs font-semibold text-theme-link transition-colors hover:border-gray-400 hover:text-theme-text"
+                  >
+                    <span>Read CI/CD Article</span>
+                    <ArrowUpRight className="h-3 w-3" />
+                  </a>
+                )}
               </div>
-              <p className="mt-2 text-xs sm:text-sm text-theme-text-muted">
+
+              <p className="mt-3 text-xs sm:text-sm text-theme-text leading-relaxed">
                 {cicd.summary}
               </p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {cicd.checks.map((check) => (
-                  <span
-                    key={check}
-                    className="inline-flex items-center gap-1 rounded-md bg-theme-bg px-2.5 py-1 text-xs font-medium text-theme-text-muted border border-theme-border"
-                  >
-                    <CheckCircle2 className="h-3 w-3 text-theme-text-muted" />
-                    <span>{check}</span>
+
+              {cicd.trigger && (
+                <div className="mt-3 inline-flex items-center gap-2 rounded-lg border border-theme-border bg-theme-bg px-3 py-1.5 text-xs font-medium text-theme-text-muted">
+                  <Zap className="h-3.5 w-3.5 text-amber-500 shrink-0" />
+                  <span>
+                    <strong className="text-theme-text font-semibold">Trigger:</strong> {cicd.trigger}
                   </span>
+                </div>
+              )}
+
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {cicd.checks.map((check) => (
+                  <div
+                    key={check}
+                    className="flex items-center gap-2 rounded-lg border border-theme-border bg-theme-bg px-3 py-2 text-xs font-medium text-theme-text-muted"
+                  >
+                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <span className="truncate">{check}</span>
+                  </div>
                 ))}
               </div>
             </div>

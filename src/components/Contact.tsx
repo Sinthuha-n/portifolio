@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { portfolioData } from '../data/portfolioData';
 import { useInView } from '../hooks/useInView';
-import { Mail, Github, Linkedin, BookOpen, MapPin, Copy, Check, ArrowUpRight } from 'lucide-react';
+import { Mail, Github, Linkedin, BookOpen, MapPin, Copy, Check, ArrowUpRight, FileText } from 'lucide-react';
 
 export const Contact: React.FC = () => {
-  const { email, github, linkedin, medium, location, university, targetRoles } =
+  const { email, github, linkedin, medium, location, university, targetRoles, resumeUrl } =
     portfolioData.personal;
   const { ref, isInView } = useInView();
   const [copied, setCopied] = useState(false);
@@ -102,6 +102,19 @@ export const Contact: React.FC = () => {
                   <span>Medium</span>
                   <ArrowUpRight className="h-3 w-3" />
                 </a>
+
+                {resumeUrl && (
+                  <a
+                    href={resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link transition-colors hover:border-gray-400 hover:text-theme-text shadow-theme-sm"
+                  >
+                    <FileText className="h-4 w-4" />
+                    <span>Résumé</span>
+                    <ArrowUpRight className="h-3 w-3" />
+                  </a>
+                )}
               </div>
             </div>
 

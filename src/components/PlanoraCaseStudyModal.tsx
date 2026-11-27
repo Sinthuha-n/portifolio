@@ -93,6 +93,20 @@ export const PlanoraCaseStudyModal: React.FC<PlanoraCaseStudyModalProps> = ({
             </div>
           </div>
 
+          {/* Kanban Screenshot in Case Study */}
+          <div className="overflow-hidden rounded-xl border border-theme-border bg-theme-bg shadow-theme-sm">
+            <img
+              src="/images/projects/planora-kanban.png"
+              alt="Planora Kanban Board Implementation Screenshot"
+              className="w-full max-h-[300px] object-cover object-top"
+            />
+            <div className="p-2.5 bg-theme-surface border-t border-theme-border text-center">
+              <p className="text-[11px] text-theme-text-muted">
+                Planora Kanban Board: Interactive task columns, WIP limits, and real-time state synchronization
+              </p>
+            </div>
+          </div>
+
           {/* Section 2: Specific Ownership */}
           <div className="border-t border-theme-border pt-5">
             <h3 className="text-xs font-bold uppercase tracking-wider text-theme-text flex items-center gap-1.5">
