@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Certificate } from '../data/portfolioData';
 import { Award, CalendarDays, ExternalLink, ShieldCheck, Maximize2 } from 'lucide-react';
 
@@ -16,27 +16,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
 
   const frontFaceRef = useRef<HTMLDivElement>(null);
   const backFaceRef = useRef<HTMLDivElement>(null);
-  const isFirstMount = useRef(true);
-
-  // Manage accessible focus ONLY on explicit keyboard/click activation (NEVER on hover)
-  useEffect(() => {
-    if (isFirstMount.current) {
-      isFirstMount.current = false;
-      return;
-    }
-
-    if (isExplicitlyFlipped) {
-      const timer = setTimeout(() => {
-        backFaceRef.current?.focus();
-      }, 50);
-      return () => clearTimeout(timer);
-    } else {
-      const timer = setTimeout(() => {
-        frontFaceRef.current?.focus();
-      }, 50);
-      return () => clearTimeout(timer);
-    }
-  }, [isExplicitlyFlipped]);
+  const openFullSizeBtnRef = useRef<HTMLButtonElement>(null);
 
   const handleFrontToggle = () => {
     setIsExplicitlyFlipped(true);
@@ -46,10 +26,18 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
     setIsExplicitlyFlipped(false);
   };
 
+  // Explicit keyboard activation: moves focus with preventScroll: true to avoid any layout jump
   const handleFrontKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
       handleFrontToggle();
+      setTimeout(() => {
+        if (openFullSizeBtnRef.current) {
+          openFullSizeBtnRef.current.focus({ preventScroll: true });
+        } else if (backFaceRef.current) {
+          backFaceRef.current.focus({ preventScroll: true });
+        }
+      }, 50);
     }
   };
 
@@ -57,6 +45,9 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
       handleBackToggle();
+      setTimeout(() => {
+        frontFaceRef.current?.focus({ preventScroll: true });
+      }, 50);
     }
   };
 
@@ -67,7 +58,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           isExplicitlyFlipped ? '[transform:rotateY(180deg)]' : ''
         } [@media(hover:hover)_and_(pointer:fine)]:group-hover/cert:[transform:rotateY(180deg)]`}
       >
-        {/* FRONT FACE: The card face itself is the labelled flip control (no nested buttons) */}
+        {/* FRONT FACE: Accessible button flip control (no nested buttons) */}
         <div
           ref={frontFaceRef}
           role="button"
@@ -76,9 +67,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           onKeyDown={handleFrontKeyDown}
           aria-expanded={isExplicitlyFlipped}
           aria-label={`Certificate for ${certificate.title} by ${certificate.issuer}. Click or press Enter to inspect credential.`}
-          className={`absolute inset-0 flex h-full w-full flex-col justify-between cursor-pointer rounded-2xl border border-theme-border bg-theme-surface p-6 shadow-theme-sm [backface-visibility:hidden] transition-all duration-200 hover:border-theme-border-strong hover:shadow-theme-md focus-visible:outline-2 ${
-            isExplicitlyFlipped ? 'pointer-events-none' : ''
-          }`}
+          className="absolute inset-0 flex h-full w-full flex-col justify-between cursor-pointer rounded-2xl border border-theme-border bg-theme-surface p-6 shadow-theme-sm [backface-visibility:hidden] transition-all duration-200 hover:border-theme-border-strong hover:shadow-theme-md focus-visible:outline-2 pointer-events-auto"
           aria-hidden={isExplicitlyFlipped}
         >
           <div>
@@ -106,7 +95,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
             </p>
           </div>
 
-          {/* Front Footer: Verified indicator & subtle instruction without visible buttons */}
+          {/* Front Footer: Verified indicator without visible buttons */}
           <div className="mt-6 pt-4 border-t border-theme-border flex items-center justify-between text-xs">
             <span className="inline-flex items-center gap-1.5 font-medium text-theme-text-subtle">
               <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
@@ -121,9 +110,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
 
         {/* BACK FACE: Preserves exact same outer dimensions to prevent layout shifts */}
         <div
-          className={`absolute inset-0 flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border border-theme-border bg-theme-surface p-5 shadow-theme-md [backface-visibility:hidden] [transform:rotateY(180deg)] transition-all duration-200 ${
-            !isExplicitlyFlipped ? 'pointer-events-none' : ''
-          }`}
+          className="absolute inset-0 flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border border-theme-border bg-theme-surface p-5 shadow-theme-md [backface-visibility:hidden] [transform:rotateY(180deg)] transition-all duration-200 pointer-events-auto"
           aria-hidden={!isExplicitlyFlipped}
         >
           {/* Upper clickable flip-back area (NOT wrapping the footer action buttons) */}
@@ -141,8 +128,8 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
               <span className="truncate text-xs font-bold text-theme-text" title={certificate.title}>
                 {certificate.title}
               </span>
-              <span className="text-[10px] text-theme-text-subtle shrink-0">
-                Click to flip back
+              <span className="text-[10px] text-theme-text-subtle shrink-0 font-mono">
+                {certificate.date}
               </span>
             </div>
 
@@ -151,26 +138,39 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
               <img
                 src={certificate.image}
                 alt={`Certificate for ${certificate.title} issued by ${certificate.issuer}`}
-                className="h-full w-full object-contain filter-none"
+                className="h-full w-full object-contain filter-none select-none"
                 loading="lazy"
               />
             </div>
           </div>
 
           {/* Sibling Footer (NOT nested inside the flip button) */}
-          <div className="pt-2.5 border-t border-theme-border flex items-center justify-between text-xs z-10">
-            {/* Open full size trigger */}
+          <div className="pt-2.5 border-t border-theme-border flex items-center justify-between text-xs z-20 relative">
+            {/* Open full size trigger: keeps card flipped and opens lightbox modal */}
             <button
+              ref={openFullSizeBtnRef}
               type="button"
               tabIndex={isExplicitlyFlipped ? 0 : -1}
               onClick={(e) => {
                 e.stopPropagation();
+                e.preventDefault();
+                setIsExplicitlyFlipped(true);
+                openFullSizeBtnRef.current?.focus({ preventScroll: true });
                 onOpenFullSize(certificate);
               }}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-heading dark:text-purple-dark hover:underline focus-visible:outline-2 py-0.5 rounded"
+              onKeyDown={(e) => {
+                if (e.key === ' ' || e.key === 'Enter') {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  setIsExplicitlyFlipped(true);
+                  openFullSizeBtnRef.current?.focus({ preventScroll: true });
+                  onOpenFullSize(certificate);
+                }
+              }}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-heading dark:text-purple-dark hover:underline focus-visible:outline-2 py-1 px-1.5 -ml-1 rounded cursor-pointer relative z-30 pointer-events-auto transition-colors"
               aria-label={`Open full size preview of ${certificate.title}`}
             >
-              <Maximize2 className="h-3.5 w-3.5" />
+              <Maximize2 className="h-3.5 w-3.5 shrink-0" />
               <span>Open full size</span>
             </button>
 
@@ -182,7 +182,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
                 rel="noopener noreferrer"
                 tabIndex={isExplicitlyFlipped ? 0 : -1}
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline focus-visible:outline-2 py-0.5"
+                className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline focus-visible:outline-2 py-0.5 relative z-30 pointer-events-auto"
               >
                 <span>Verify online</span>
                 <ExternalLink className="h-3 w-3" />

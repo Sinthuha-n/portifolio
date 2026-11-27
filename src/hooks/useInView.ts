@@ -8,9 +8,19 @@ import { useEffect, useRef, useState } from 'react';
 export function useInView(options?: IntersectionObserverInit) {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  // Initialize with fallback check: if no IntersectionObserver, show content immediately
+  // Initialize with fallback check: if no IntersectionObserver or reduced motion is preferred, show content immediately
   const [isInView, setIsInView] = useState<boolean>(() => {
-    return typeof window === 'undefined' || !('IntersectionObserver' in window);
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+      return true;
+    }
+    try {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return true;
+      }
+    } catch {
+      // ignore
+    }
+    return false;
   });
 
   useEffect(() => {

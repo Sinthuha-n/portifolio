@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "sync-medium": "node scripts/sync-medium.js",
+    "prebuild": "node scripts/sync-medium.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

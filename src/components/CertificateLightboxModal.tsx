@@ -64,7 +64,7 @@ export const CertificateLightboxModal: React.FC<CertificateLightboxModalProps> =
       document.body.style.overflow = originalOverflow;
       window.removeEventListener('keydown', handleKeyDown);
       if (previousActiveElement.current && typeof previousActiveElement.current.focus === 'function') {
-        previousActiveElement.current.focus();
+        previousActiveElement.current.focus({ preventScroll: true });
       }
     };
   }, [certificate, onClose]);
@@ -78,9 +78,9 @@ export const CertificateLightboxModal: React.FC<CertificateLightboxModalProps> =
       aria-modal="true"
       aria-labelledby="cert-lightbox-title"
     >
-      {/* Dimmed backdrop */}
+      {/* Dimmed backdrop with soft blur */}
       <div
-        className="fixed inset-0 bg-black/75 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 bg-black/75 backdrop-blur-md transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />

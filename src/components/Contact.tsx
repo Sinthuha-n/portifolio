@@ -8,7 +8,8 @@ export const Contact: React.FC = () => {
   const { openResume } = useResumeModal();
   const { email, github, linkedin, medium, location, university, targetRoles, resumeUrl } =
     portfolioData.personal;
-  const { ref, isInView } = useInView();
+  // Trigger reveal when section enters viewport; rootMargin allows smooth pre-fetch
+  const { ref, isInView } = useInView({ threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
   const [copied, setCopied] = useState(false);
 
   const copyEmail = () => {
@@ -20,40 +21,48 @@ export const Contact: React.FC = () => {
   return (
     <section id="contact" className="scroll-mt-20 py-16 sm:py-20 border-b border-theme-border bg-theme-bg">
       <div className="mx-auto max-w-[1120px] px-6 lg:px-10">
-        <div
-          ref={ref}
-          className={`reveal-item ${isInView ? 'reveal-visible' : 'reveal-hidden'}`}
-        >
-          {/* Section Header (aligned to exact left edge) */}
-          <div className="text-left mb-10 sm:mb-12">
+        <div ref={ref}>
+          {/* Section Eyebrow & Purple Heading: Fades in as it rises ~14px (0ms delay) */}
+          <div className="text-left mb-6 sm:mb-8">
             <p className="text-xs font-bold uppercase tracking-wider text-theme-text-subtle">
               Let’s Connect
             </p>
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-purple-heading dark:text-purple-dark sm:text-4xl">
+            <h2
+              className={`mt-2 text-3xl font-extrabold tracking-tight text-purple-heading dark:text-purple-dark sm:text-4xl contact-heading-item ${
+                isInView ? 'contact-heading-visible' : 'contact-heading-hidden'
+              }`}
+              style={{ transitionDelay: '0ms' }}
+            >
               Get In Touch
             </h2>
-            <p className="mt-3 text-base sm:text-lg text-theme-text-muted leading-relaxed max-w-2xl">
-              I am actively seeking internship opportunities across software engineering, DevOps pipelines, and mobile application development. Let’s discuss how I can contribute to your engineering team.
-            </p>
           </div>
 
-          {/* Contact Card spanning full container width */}
+          {/* Contact Card: placed directly below heading without awkward gap; outer container remains steady to prevent duplicate motion */}
           <div className="rounded-2xl border border-theme-border bg-theme-surface p-6 sm:p-10 shadow-theme-sm text-left">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               {/* Email actions */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                {/* Send an Email button */}
                 <a
                   href={`mailto:${email}`}
-                  className="inline-flex items-center gap-2 rounded-xl bg-theme-btn-primary-bg text-theme-btn-primary-text px-5 py-3 text-sm font-semibold shadow-theme-sm transition-all hover:opacity-90 focus-visible:outline-2"
+                  className={`group inline-flex items-center gap-2 rounded-xl bg-theme-btn-primary-bg text-theme-btn-primary-text px-5 py-3 text-sm font-semibold shadow-theme-sm focus-visible:outline-2 contact-interactive-link ${
+                    isInView ? 'contact-link-visible' : 'contact-link-hidden'
+                  }`}
+                  style={{ transitionDelay: '140ms' }}
                 >
                   <Mail className="h-4 w-4" />
-                  <span>Send an Email</span>
+                  <span className="contact-link-label">Send an Email</span>
+                  <ArrowUpRight className="h-4 w-4 contact-link-arrow" />
                 </a>
 
+                {/* Copy email button */}
                 <button
                   type="button"
                   onClick={copyEmail}
-                  className="inline-flex items-center gap-2 rounded-xl border border-theme-btn-secondary-border bg-theme-btn-secondary-bg text-theme-btn-secondary-text px-4 py-3 text-sm font-medium transition-colors hover:bg-gray-50 dark:hover:bg-slate-800 focus-visible:outline-2"
+                  className={`inline-flex items-center gap-2 rounded-xl border border-theme-btn-secondary-border bg-theme-btn-secondary-bg text-theme-btn-secondary-text px-4 py-3 text-sm font-medium hover:bg-gray-50 dark:hover:bg-slate-800 focus-visible:outline-2 contact-interactive-link ${
+                    isInView ? 'contact-link-visible' : 'contact-link-hidden'
+                  }`}
+                  style={{ transitionDelay: '220ms' }}
                   aria-label="Copy email address to clipboard"
                 >
                   {copied ? (
@@ -70,58 +79,79 @@ export const Contact: React.FC = () => {
                 </button>
               </div>
 
-              {/* Social profiles */}
+              {/* Social & document links */}
               <div className="flex flex-wrap items-center gap-3 md:justify-end">
+                {/* GitHub */}
                 <a
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link transition-colors hover:border-gray-400 hover:text-theme-text shadow-theme-sm"
+                  className={`group inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link hover:border-gray-400 hover:text-theme-text shadow-theme-sm focus-visible:outline-2 contact-interactive-link ${
+                    isInView ? 'contact-link-visible' : 'contact-link-hidden'
+                  }`}
+                  style={{ transitionDelay: '300ms' }}
                 >
                   <Github className="h-4 w-4" />
-                  <span>GitHub</span>
-                  <ArrowUpRight className="h-3 w-3" />
+                  <span className="contact-link-label">GitHub</span>
+                  <ArrowUpRight className="h-3 w-3 contact-link-arrow" />
                 </a>
 
+                {/* LinkedIn */}
                 <a
                   href={linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link transition-colors hover:border-gray-400 hover:text-theme-text shadow-theme-sm"
+                  className={`group inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link hover:border-gray-400 hover:text-theme-text shadow-theme-sm focus-visible:outline-2 contact-interactive-link ${
+                    isInView ? 'contact-link-visible' : 'contact-link-hidden'
+                  }`}
+                  style={{ transitionDelay: '380ms' }}
                 >
                   <Linkedin className="h-4 w-4" />
-                  <span>LinkedIn</span>
-                  <ArrowUpRight className="h-3 w-3" />
+                  <span className="contact-link-label">LinkedIn</span>
+                  <ArrowUpRight className="h-3 w-3 contact-link-arrow" />
                 </a>
 
+                {/* Medium */}
                 <a
                   href={medium}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link transition-colors hover:border-gray-400 hover:text-theme-text shadow-theme-sm"
+                  className={`group inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link hover:border-gray-400 hover:text-theme-text shadow-theme-sm focus-visible:outline-2 contact-interactive-link ${
+                    isInView ? 'contact-link-visible' : 'contact-link-hidden'
+                  }`}
+                  style={{ transitionDelay: '460ms' }}
                 >
                   <BookOpen className="h-4 w-4" />
-                  <span>Medium</span>
-                  <ArrowUpRight className="h-3 w-3" />
+                  <span className="contact-link-label">Medium</span>
+                  <ArrowUpRight className="h-3 w-3 contact-link-arrow" />
                 </a>
 
+                {/* Résumé */}
                 {resumeUrl && (
                   <button
                     type="button"
                     onClick={openResume}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link transition-colors hover:border-gray-400 hover:text-theme-text shadow-theme-sm focus-visible:outline-2"
+                    className={`group inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link hover:border-gray-400 hover:text-theme-text shadow-theme-sm focus-visible:outline-2 contact-interactive-link ${
+                      isInView ? 'contact-link-visible' : 'contact-link-hidden'
+                    }`}
+                    style={{ transitionDelay: '540ms' }}
                     aria-label="Open résumé preview modal"
                   >
                     <FileText className="h-4 w-4" />
-                    <span>Résumé</span>
-                    <ArrowUpRight className="h-3 w-3" />
+                    <span className="contact-link-label">Résumé</span>
+                    <ArrowUpRight className="h-3 w-3 contact-link-arrow" />
                   </button>
                 )}
               </div>
             </div>
 
             {/* Context footer */}
-            <div className="mt-8 pt-4 border-t border-theme-border flex flex-wrap items-center justify-between gap-3 text-xs text-theme-text-subtle">
+            <div
+              className={`mt-8 pt-4 border-t border-theme-border flex flex-wrap items-center justify-between gap-3 text-xs text-theme-text-subtle contact-interactive-link ${
+                isInView ? 'contact-link-visible' : 'contact-link-hidden'
+              }`}
+              style={{ transitionDelay: '540ms' }}
+            >
               <span className="flex items-center gap-1">
                 <MapPin className="h-3.5 w-3.5" />
                 {university} • {location}
