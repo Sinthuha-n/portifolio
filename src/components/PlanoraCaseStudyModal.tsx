@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PlanoraCaseStudy } from '../data/portfolioData';
-import { X, Kanban, CheckCircle2, Cpu, Users, GitBranch, Github } from 'lucide-react';
+import { X, Kanban, CheckCircle2, Cpu, Users, GitBranch, Github, Calendar } from 'lucide-react';
 
 interface PlanoraCaseStudyModalProps {
   isOpen: boolean;
@@ -15,6 +15,8 @@ export const PlanoraCaseStudyModal: React.FC<PlanoraCaseStudyModalProps> = ({
   caseStudy,
   githubUrl,
 }) => {
+  const [activeTab, setActiveTab] = useState<'kanban' | 'timeline'>('kanban');
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -93,16 +95,53 @@ export const PlanoraCaseStudyModal: React.FC<PlanoraCaseStudyModalProps> = ({
             </div>
           </div>
 
-          {/* Kanban Screenshot in Case Study */}
+          {/* Architecture Screenshot Showcase with Kanban & Timeline Switcher */}
           <div className="overflow-hidden rounded-xl border border-theme-border bg-theme-bg shadow-theme-sm">
+            <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 border-b border-theme-border bg-theme-surface">
+              <span className="text-xs font-bold text-theme-text uppercase tracking-wider">
+                Production Artifacts
+              </span>
+              <div className="flex items-center gap-1.5" role="tablist" aria-label="Case study screenshots">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === 'kanban'}
+                  onClick={() => setActiveTab('kanban')}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                    activeTab === 'kanban'
+                      ? 'bg-purple-100 dark:bg-purple-950/70 text-purple-heading dark:text-purple-dark border border-purple-300 dark:border-purple-800 shadow-xs'
+                      : 'bg-theme-bg text-theme-text-muted hover:text-theme-text border border-theme-border'
+                  }`}
+                >
+                  <Kanban className="h-3 w-3" />
+                  <span>Kanban Board</span>
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === 'timeline'}
+                  onClick={() => setActiveTab('timeline')}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                    activeTab === 'timeline'
+                      ? 'bg-purple-100 dark:bg-purple-950/70 text-purple-heading dark:text-purple-dark border border-purple-300 dark:border-purple-800 shadow-xs'
+                      : 'bg-theme-bg text-theme-text-muted hover:text-theme-text border border-theme-border'
+                  }`}
+                >
+                  <Calendar className="h-3 w-3" />
+                  <span>Sprint Timeline</span>
+                </button>
+              </div>
+            </div>
             <img
-              src="/images/projects/planora-kanban.png"
-              alt="Planora Kanban Board Implementation Screenshot"
-              className="w-full max-h-[300px] object-cover object-top"
+              src={activeTab === 'kanban' ? '/images/projects/planora-kanban.jpg' : '/images/projects/planora-timeline.jpg'}
+              alt={activeTab === 'kanban' ? 'Planora Kanban Board Implementation Screenshot' : 'Planora Sprint Timeline Implementation Screenshot'}
+              className="w-full max-h-[340px] object-cover object-top"
             />
             <div className="p-2.5 bg-theme-surface border-t border-theme-border text-center">
               <p className="text-[11px] text-theme-text-muted">
-                Planora Kanban Board: Interactive task columns, WIP limits, and real-time state synchronization
+                {activeTab === 'kanban'
+                  ? 'Planora Kanban Board: Interactive task columns, WIP limits, and real-time state synchronization'
+                  : 'Planora Sprint Timeline: Milestone roadmap view with sprint scheduling, dependency bars, and date tracking'}
               </p>
             </div>
           </div>
