@@ -47,23 +47,23 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-theme-border bg-theme-bg/85 backdrop-blur-md transition-colors duration-200">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 w-full border-b border-theme-border bg-theme-bg/95 backdrop-blur-md transition-colors duration-200">
+      <div className="mx-auto flex h-16 max-w-[1120px] items-center justify-between px-6 lg:px-10">
         {/* Name / Logo */}
         <a
           href="#"
-          className="group flex items-center gap-2.5 font-semibold text-theme-text transition-colors hover:text-theme-accent"
+          className="group flex items-center gap-2.5 font-bold text-purple-heading dark:text-purple-dark transition-colors"
           aria-label={`${name} - Return to top`}
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-theme-accent text-xs font-bold text-white shadow-theme-sm transition-transform group-hover:scale-105">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#111827] dark:bg-white text-white dark:text-[#111827] text-xs font-bold shadow-theme-sm transition-transform group-hover:scale-105">
             SN
           </span>
-          <span className="text-base font-bold tracking-tight text-theme-text group-hover:text-theme-accent transition-colors">
+          <span className="text-base tracking-tight text-purple-heading dark:text-purple-dark">
             {name}
           </span>
         </a>
 
-        {/* Desktop Navigation & Actions */}
+        {/* Desktop Navigation */}
         <div className="hidden items-center gap-7 md:flex">
           <nav className="flex items-center gap-6" aria-label="Main navigation">
             {navLinks.map((link) => (
@@ -71,19 +71,18 @@ export const Navbar: React.FC = () => {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
-                className="text-sm font-medium text-theme-text-muted transition-colors hover:text-theme-accent focus-visible:outline-2 focus-visible:outline-theme-accent"
+                className="text-sm font-medium text-theme-link transition-colors hover:text-purple-heading dark:hover:text-purple-dark focus-visible:outline-2"
               >
                 {link.label}
               </a>
             ))}
 
-            {/* Optional Résumé Link (rendered only if valid URL provided) */}
             {resumeUrl && resumeUrl.trim() !== '' && (
               <a
                 href={resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 rounded-full border border-theme-accent-border bg-theme-accent-light px-3.5 py-1 text-xs font-semibold text-theme-accent transition-colors hover:bg-theme-accent hover:text-white"
+                className="inline-flex items-center gap-1 rounded-lg border border-theme-border bg-theme-surface px-3 py-1 text-xs font-semibold text-theme-text transition-colors hover:border-gray-400"
               >
                 <span>Résumé</span>
                 <ArrowUpRight className="h-3 w-3" />
@@ -96,12 +95,12 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-theme-border bg-theme-surface text-theme-text-muted shadow-theme-sm transition-colors hover:border-theme-border-strong hover:text-theme-text focus-visible:outline-2 focus-visible:outline-theme-accent"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-theme-border bg-theme-surface text-theme-link shadow-theme-sm transition-colors hover:border-theme-border-strong hover:text-theme-text focus-visible:outline-2"
               aria-label={`Theme selector: Current theme is ${theme}`}
               aria-expanded={themeDropdownOpen}
             >
               {theme === 'dark' ? (
-                <Moon className="h-4 w-4 text-theme-accent" />
+                <Moon className="h-4 w-4" />
               ) : theme === 'light' ? (
                 <Sun className="h-4 w-4 text-amber-500" />
               ) : (
@@ -124,8 +123,8 @@ export const Navbar: React.FC = () => {
                     }}
                     className={`flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors ${
                       theme === opt.value
-                        ? 'bg-theme-accent-light text-theme-accent font-semibold'
-                        : 'text-theme-text-muted hover:bg-theme-surface-subtle hover:text-theme-text'
+                        ? 'bg-gray-100 dark:bg-slate-800 text-purple-heading dark:text-purple-dark font-semibold'
+                        : 'text-theme-text-muted hover:bg-gray-50 dark:hover:bg-slate-800/60 hover:text-theme-text'
                     }`}
                     role="menuitem"
                   >
@@ -143,19 +142,18 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile menu trigger */}
         <div className="flex items-center gap-2 md:hidden">
-          {/* Quick theme cycle on mobile */}
           <button
             type="button"
             onClick={() => {
-              if (theme === 'system') setTheme('light');
-              else if (theme === 'light') setTheme('dark');
-              else setTheme('system');
+              if (theme === 'light') setTheme('dark');
+              else if (theme === 'dark') setTheme('system');
+              else setTheme('light');
             }}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-theme-border bg-theme-surface text-theme-text-muted"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-theme-border bg-theme-surface text-theme-link"
             aria-label="Toggle theme mode"
           >
             {theme === 'dark' ? (
-              <Moon className="h-4 w-4 text-theme-accent" />
+              <Moon className="h-4 w-4" />
             ) : theme === 'light' ? (
               <Sun className="h-4 w-4 text-amber-500" />
             ) : (
@@ -166,7 +164,7 @@ export const Navbar: React.FC = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="inline-flex items-center justify-center rounded-lg border border-theme-border bg-theme-surface p-2 text-theme-text-muted hover:text-theme-text"
+            className="inline-flex items-center justify-center rounded-lg border border-theme-border bg-theme-surface p-2 text-theme-link hover:text-theme-text"
             aria-expanded={mobileMenuOpen}
             aria-label="Toggle navigation menu"
           >
@@ -177,20 +175,19 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="border-b border-theme-border bg-theme-surface px-4 py-4 md:hidden animate-hero-1">
+        <div className="border-b border-theme-border bg-theme-surface px-6 py-4 md:hidden animate-hero-1">
           <nav className="flex flex-col space-y-3" aria-label="Mobile navigation">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
-                className="rounded-lg px-3 py-2 text-base font-medium text-theme-text hover:bg-theme-surface-subtle hover:text-theme-accent"
+                className="rounded-lg px-3 py-2 text-base font-medium text-theme-text hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-purple-heading"
               >
                 {link.label}
               </a>
             ))}
 
-            {/* Mobile theme choice segmented buttons */}
             <div className="pt-3 border-t border-theme-border flex items-center justify-between">
               <span className="text-xs font-medium text-theme-text-muted">Theme</span>
               <div className="flex rounded-lg border border-theme-border p-0.5 bg-theme-bg">
@@ -201,7 +198,7 @@ export const Navbar: React.FC = () => {
                     onClick={() => setTheme(opt.value)}
                     className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
                       theme === opt.value
-                        ? 'bg-theme-surface text-theme-accent shadow-theme-sm font-semibold'
+                        ? 'bg-theme-surface text-purple-heading dark:text-purple-dark shadow-theme-sm font-semibold'
                         : 'text-theme-text-muted hover:text-theme-text'
                     }`}
                   >

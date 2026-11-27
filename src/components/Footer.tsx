@@ -12,8 +12,8 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="border-t border-theme-border bg-theme-bg py-10 transition-colors duration-200">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-4 sm:flex-row sm:px-6 lg:px-8">
+    <footer className="bg-theme-bg py-10 transition-colors duration-200">
+      <div className="mx-auto flex max-w-[1120px] flex-col items-center justify-between gap-5 px-6 lg:px-10 sm:flex-row">
         <div className="text-center sm:text-left">
           <p className="text-sm font-bold text-theme-text">{name}</p>
           <p className="mt-0.5 text-xs text-theme-text-muted">
@@ -29,7 +29,7 @@ export const Footer: React.FC = () => {
           <a
             href="#"
             onClick={scrollToTop}
-            className="inline-flex items-center gap-1 rounded-lg border border-theme-border bg-theme-surface px-3 py-1.5 text-xs font-medium text-theme-text transition-colors hover:border-theme-border-strong hover:text-theme-accent focus-visible:outline-2 focus-visible:outline-theme-accent"
+            className="inline-flex items-center gap-1 rounded-lg border border-theme-border bg-theme-surface px-3 py-1.5 text-xs font-medium text-theme-link transition-colors hover:border-theme-border-strong hover:text-theme-text focus-visible:outline-2"
             aria-label="Back to top of page"
           >
             <span>Top</span>

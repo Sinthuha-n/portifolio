@@ -14,18 +14,18 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({ onOpenPlanoraCaseStu
   const secondaryProjects = projects.filter((p) => p.id !== 'planora');
 
   return (
-    <section id="work" className="py-16 sm:py-20 border-t border-theme-border">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="max-w-2xl text-left mb-10 sm:mb-12">
-          <p className="text-xs font-bold uppercase tracking-wider text-theme-accent">
+    <section id="work" className="py-16 sm:py-20 border-b border-theme-border bg-theme-bg">
+      <div className="mx-auto max-w-[1120px] px-6 lg:px-10">
+        {/* Section Header (aligned to exact left edge) */}
+        <div className="text-left mb-10 sm:mb-12">
+          <p className="text-xs font-bold uppercase tracking-wider text-theme-text-subtle">
             Selected Work
           </p>
-          <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-theme-text sm:text-4xl">
+          <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-purple-heading dark:text-purple-dark sm:text-4xl">
             Featured Engineering Projects
           </h2>
-          <p className="mt-3 text-base sm:text-lg text-theme-text-muted leading-relaxed">
-            Production-grade systems highlighting full-stack state management, robust API architecture, and offline-capable mobile development.
+          <p className="mt-3 text-base sm:text-lg text-theme-text-muted leading-relaxed max-w-2xl">
+            Full-stack and mobile applications highlighting drag-and-drop state synchronization, robust backend APIs, and offline-first client architecture.
           </p>
         </div>
 
@@ -42,8 +42,8 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({ onOpenPlanoraCaseStu
             </div>
           )}
 
-          {/* 2. Two-Column Desktop Grid for CheckINN and Page-Bloom */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+          {/* 2. Equally Sized Two-Column Desktop Grid for CheckINN and Page-Bloom */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch">
             {secondaryProjects.map((project) => (
               <ProjectCard key={project.id} project={project} isWide={false} />
             ))}
@@ -51,9 +51,9 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({ onOpenPlanoraCaseStu
 
           {/* 3. Conditional CI/CD Entry (Kept out of UI until verified) */}
           {cicd?.configured && (
-            <div className="mt-8 rounded-2xl border border-theme-accent-border bg-theme-surface p-6 shadow-theme-sm">
+            <div className="mt-8 rounded-2xl border border-theme-border bg-theme-surface p-6 shadow-theme-sm">
               <div className="flex items-center gap-2.5 text-sm font-bold text-theme-text">
-                <GitBranch className="h-4 w-4 text-theme-accent" />
+                <GitBranch className="h-4 w-4 text-theme-text-muted" />
                 <span>Build & Delivery Pipeline</span>
               </div>
               <p className="mt-2 text-xs sm:text-sm text-theme-text-muted">
@@ -63,9 +63,9 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({ onOpenPlanoraCaseStu
                 {cicd.checks.map((check) => (
                   <span
                     key={check}
-                    className="inline-flex items-center gap-1 rounded-md bg-theme-surface-subtle px-2.5 py-1 text-xs font-medium text-theme-text-muted border border-theme-border"
+                    className="inline-flex items-center gap-1 rounded-md bg-theme-bg px-2.5 py-1 text-xs font-medium text-theme-text-muted border border-theme-border"
                   >
-                    <CheckCircle2 className="h-3 w-3 text-theme-accent" />
+                    <CheckCircle2 className="h-3 w-3 text-theme-text-muted" />
                     <span>{check}</span>
                   </span>
                 ))}

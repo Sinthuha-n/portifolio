@@ -20,7 +20,6 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
     }
 
     if (isFlipped) {
-      // Small timeout ensures element is mounted/visible before focusing
       const timer = setTimeout(() => {
         flipBackButtonRef.current?.focus();
       }, 50);
@@ -45,23 +44,23 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
   };
 
   return (
-    <div className="h-[360px] sm:h-[380px] w-full [perspective:1400px]">
+    <div className="h-[380px] w-full [perspective:1400px]">
       <div
-        className={`card-flip-container relative h-full w-full rounded-2xl transition-transform duration-500 [transform-style:preserve-3d] ${
+        className={`card-flip-container relative h-full w-full rounded-2xl [transform-style:preserve-3d] ${
           isFlipped ? '[transform:rotateY(180deg)]' : ''
         }`}
       >
         {/* FRONT FACE */}
         <div
-          className={`absolute inset-0 flex h-full flex-col justify-between rounded-2xl border border-theme-border bg-theme-surface p-6 sm:p-7 shadow-theme-sm [backface-visibility:hidden] transition-all duration-300 hover:border-theme-border-strong hover:shadow-theme-md ${
+          className={`absolute inset-0 flex h-full w-full flex-col justify-between rounded-2xl border border-theme-border bg-theme-surface p-6 shadow-theme-sm [backface-visibility:hidden] transition-all duration-200 hover:border-theme-border-strong hover:shadow-theme-md ${
             isFlipped ? 'pointer-events-none' : ''
           }`}
           aria-hidden={isFlipped}
         >
           <div>
-            {/* Top row: Issuer badge & Issue Date */}
+            {/* Top row: Issuer badge & Date */}
             <div className="flex items-start justify-between gap-3 mb-4">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-theme-accent-light px-2.5 py-1 text-xs font-semibold text-theme-accent">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-theme-border bg-theme-bg px-2.5 py-1 text-xs font-medium text-theme-text-muted">
                 <Award className="h-3.5 w-3.5" />
                 <span className="truncate max-w-[170px]">{certificate.issuer}</span>
               </span>
@@ -72,8 +71,8 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
               </span>
             </div>
 
-            {/* Title */}
-            <h3 className="mt-3 text-xl font-bold tracking-tight text-theme-text leading-snug">
+            {/* Title in Purple */}
+            <h3 className="mt-3 text-lg sm:text-xl font-extrabold tracking-tight text-purple-heading dark:text-purple-dark leading-snug">
               {certificate.title}
             </h3>
 
@@ -86,7 +85,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
           {/* Front Footer: Verified indicator & "View certificate" button */}
           <div className="mt-6 pt-4 border-t border-theme-border flex items-center justify-between">
             <span className="inline-flex items-center gap-1.5 text-xs font-medium text-theme-text-subtle">
-              <ShieldCheck className="h-4 w-4 text-theme-accent" />
+              <ShieldCheck className="h-4 w-4" />
               <span>Verified Credential</span>
             </span>
 
@@ -98,17 +97,17 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
               onKeyDown={handleKeyDown}
               aria-expanded={isFlipped}
               aria-label={`View certificate for ${certificate.title}`}
-              className="group inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface-subtle px-3.5 py-2 text-xs font-semibold text-theme-text transition-colors hover:border-theme-accent hover:text-theme-accent focus-visible:outline-2 focus-visible:outline-theme-accent"
+              className="group inline-flex items-center gap-1.5 rounded-xl border border-theme-btn-secondary-border bg-theme-btn-secondary-bg text-theme-btn-secondary-text px-3.5 py-2 text-xs font-semibold transition-colors hover:bg-gray-50 dark:hover:bg-slate-800 focus-visible:outline-2"
             >
               <span>View certificate</span>
-              <RotateCw className="h-3.5 w-3.5 text-theme-accent transition-transform duration-300 group-hover:rotate-180" />
+              <RotateCw className="h-3.5 w-3.5 text-theme-text-muted transition-transform duration-300 group-hover:rotate-180" />
             </button>
           </div>
         </div>
 
-        {/* BACK FACE */}
+        {/* BACK FACE (Exact same outer dimensions and padding to avoid any layout shift) */}
         <div
-          className={`absolute inset-0 flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-theme-border bg-theme-surface p-4 sm:p-5 shadow-theme-lg [backface-visibility:hidden] [transform:rotateY(180deg)] ${
+          className={`absolute inset-0 flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl border border-theme-border bg-theme-surface p-6 shadow-theme-md [backface-visibility:hidden] [transform:rotateY(180deg)] ${
             !isFlipped ? 'pointer-events-none' : ''
           }`}
           aria-hidden={!isFlipped}
@@ -126,15 +125,15 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
               onClick={handleFlip}
               onKeyDown={handleKeyDown}
               aria-label={`Flip back to details for ${certificate.title}`}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-theme-border bg-theme-surface-subtle px-2.5 py-1 text-xs font-semibold text-theme-text transition-colors hover:border-theme-accent hover:text-theme-accent focus-visible:outline-2 focus-visible:outline-theme-accent shrink-0"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-theme-btn-secondary-border bg-theme-btn-secondary-bg text-theme-btn-secondary-text px-2.5 py-1 text-xs font-semibold transition-colors hover:bg-gray-50 dark:hover:bg-slate-800 focus-visible:outline-2 shrink-0"
             >
-              <RotateCcw className="h-3 w-3 text-theme-accent" />
+              <RotateCcw className="h-3 w-3 text-theme-text-muted" />
               <span>Flip back</span>
             </button>
           </div>
 
-          {/* Real Certificate Image: Uncropped, object-contain, original colors in dark mode */}
-          <div className="my-2 min-h-0 flex-1 overflow-hidden rounded-xl border border-theme-border bg-slate-100 dark:bg-slate-900/90 flex items-center justify-center p-2">
+          {/* Certificate Image: Fitted uncropped, object-contain, original colors in dark mode */}
+          <div className="my-2.5 min-h-0 flex-1 overflow-hidden rounded-xl border border-theme-border bg-slate-50 dark:bg-slate-900 flex items-center justify-center p-2">
             <img
               src={certificate.image}
               alt={`Certificate for ${certificate.title} issued by ${certificate.issuer}`}
@@ -143,14 +142,14 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({ certificate })
             />
           </div>
 
-          {/* Back Footer: Open full size & Optional verification URL */}
-          <div className="pt-2 border-t border-theme-border flex items-center justify-between text-xs">
+          {/* Back Footer: Open full size link */}
+          <div className="pt-2.5 border-t border-theme-border flex items-center justify-between text-xs">
             <a
               href={certificate.image}
               target="_blank"
               rel="noopener noreferrer"
               tabIndex={isFlipped ? 0 : -1}
-              className="inline-flex items-center gap-1 text-[11px] font-semibold text-theme-accent hover:underline focus-visible:outline-2 focus-visible:outline-theme-accent"
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-theme-link hover:text-theme-text focus-visible:outline-2"
             >
               <span>Open full size</span>
               <ExternalLink className="h-3 w-3" />

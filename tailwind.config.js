@@ -11,36 +11,27 @@ export default {
         theme: {
           bg: 'var(--color-bg)',
           surface: 'var(--color-surface)',
-          'surface-subtle': 'var(--color-surface-subtle)',
           card: 'var(--color-card)',
           border: 'var(--color-border)',
           'border-strong': 'var(--color-border-strong)',
           text: 'var(--color-text)',
           'text-muted': 'var(--color-text-muted)',
           'text-subtle': 'var(--color-text-subtle)',
-          accent: 'var(--color-accent)',
-          'accent-hover': 'var(--color-accent-hover)',
-          'accent-light': 'var(--color-accent-light)',
-          'accent-border': 'var(--color-accent-border)',
+          heading: 'var(--color-heading)',
+          link: 'var(--color-link)',
+          'link-hover': 'var(--color-link-hover)',
+          'btn-primary-bg': 'var(--color-btn-primary-bg)',
+          'btn-primary-text': 'var(--color-btn-primary-text)',
+          'btn-secondary-bg': 'var(--color-btn-secondary-bg)',
+          'btn-secondary-text': 'var(--color-btn-secondary-text)',
+          'btn-secondary-border': 'var(--color-btn-secondary-border)',
+          focus: 'var(--color-focus)',
         },
-        // Direct palette tokens as specified
-        canvas: {
-          light: '#F8F9FC',
-          dark: '#0B1120',
+        purple: {
+          heading: '#5B21B6',
+          dark: '#EDE9FE',
+          accent: '#7C3AED',
         },
-        surface: {
-          light: '#FFFFFF',
-          dark: '#111A2E',
-        },
-        ink: {
-          light: '#101828',
-          dark: '#F8F9FC',
-        },
-        indigo: {
-          brand: '#4338CA',
-          light: '#6366F1',
-          accent: '#818CF8',
-        }
       },
       fontFamily: {
         sans: [
@@ -54,14 +45,10 @@ export default {
           'sans-serif',
         ],
       },
-      maxWidth: {
-        prose: '65ch',
-      },
       boxShadow: {
-        'theme-sm': '0 1px 2px 0 var(--color-shadow)',
-        'theme-md': '0 4px 6px -1px var(--color-shadow), 0 2px 4px -2px var(--color-shadow)',
-        'theme-lg': '0 10px 15px -3px var(--color-shadow), 0 4px 6px -4px var(--color-shadow)',
-        'theme-xl': '0 20px 25px -5px var(--color-shadow), 0 8px 10px -6px var(--color-shadow)',
+        'theme-sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        'theme-md': '0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05)',
+        'theme-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04)',
       }
     },
   },

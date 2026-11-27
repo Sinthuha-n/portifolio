@@ -9,22 +9,22 @@ export const SkillsAndCertifications: React.FC = () => {
   const { ref, isInView } = useInView();
 
   return (
-    <section id="skills" className="py-16 sm:py-20 border-t border-theme-border">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <section id="skills" className="py-16 sm:py-20 border-b border-theme-border bg-theme-bg">
+      <div className="mx-auto max-w-[1120px] px-6 lg:px-10">
         <div
           ref={ref}
-          className={`reveal-item ${isInView ? 'reveal-visible' : 'reveal-hidden'} space-y-14`}
+          className={`reveal-item ${isInView ? 'reveal-visible' : 'reveal-hidden'} space-y-12`}
         >
-          {/* Section Header */}
-          <div className="max-w-2xl text-left">
-            <p className="text-xs font-bold uppercase tracking-wider text-theme-accent">
+          {/* Section Header (aligned to exact left edge) */}
+          <div className="text-left">
+            <p className="text-xs font-bold uppercase tracking-wider text-theme-text-subtle">
               Expertise & Credentials
             </p>
-            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-theme-text sm:text-4xl">
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-purple-heading dark:text-purple-dark sm:text-4xl">
               Skills & Verified Certifications
             </h2>
-            <p className="mt-3 text-base sm:text-lg text-theme-text-muted leading-relaxed">
-              Technical foundations applied across software systems, accompanied by verified credentials in web development, relational SQL, REST APIs, and software engineering.
+            <p className="mt-3 text-base sm:text-lg text-theme-text-muted leading-relaxed max-w-2xl">
+              Core technical capabilities across engineering disciplines, validated through completed industry and academic coursework.
             </p>
           </div>
 
@@ -36,8 +36,8 @@ export const SkillsAndCertifications: React.FC = () => {
                 className="rounded-2xl border border-theme-border bg-theme-surface p-5 shadow-theme-sm text-left"
               >
                 <div className="flex items-center gap-2 mb-3">
-                  <Cpu className="h-4 w-4 text-theme-accent shrink-0" />
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-theme-accent">
+                  <Cpu className="h-4 w-4 text-theme-text-muted shrink-0" />
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-theme-text">
                     {group.category}
                   </h3>
                 </div>
@@ -46,9 +46,9 @@ export const SkillsAndCertifications: React.FC = () => {
                   {group.items.map((item) => (
                     <li
                       key={item}
-                      className="inline-flex items-center gap-1 rounded-md border border-theme-border bg-theme-surface-subtle px-2 py-0.5 text-xs font-medium text-theme-text"
+                      className="inline-flex items-center gap-1 rounded-md border border-theme-border bg-theme-bg px-2.5 py-1 text-xs font-medium text-theme-text"
                     >
-                      <CheckCircle2 className="h-3 w-3 text-theme-accent" />
+                      <CheckCircle2 className="h-3 w-3 text-theme-text-muted" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -61,7 +61,7 @@ export const SkillsAndCertifications: React.FC = () => {
           <div className="text-left pt-2">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
               <div>
-                <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-theme-text">
+                <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-purple-heading dark:text-purple-dark">
                   Verified Certifications
                 </h3>
                 <p className="mt-1 text-xs sm:text-sm text-theme-text-muted">
@@ -75,7 +75,7 @@ export const SkillsAndCertifications: React.FC = () => {
             </div>
 
             {/* Responsive 3-Column Desktop, 2-Column Tablet, 1-Column Mobile Flip Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
               {certificates.map((cert) => (
                 <CertificateCard key={cert.id} certificate={cert} />
               ))}

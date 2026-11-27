@@ -3,7 +3,7 @@ import { ThemeChoice, ThemeContext } from './ThemeContextDefinition';
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<ThemeChoice>(() => {
-    if (typeof window === 'undefined') return 'system';
+    if (typeof window === 'undefined') return 'light';
     try {
       const params = new URLSearchParams(window.location.search);
       const urlTheme = params.get('theme') as ThemeChoice;
@@ -17,7 +17,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } catch {
       // Ignore localStorage errors
     }
-    return 'system';
+    return 'light'; // Default to Light for first-time visitors
   });
 
   const [effectiveTheme, setEffectiveTheme] = useState<'light' | 'dark'>('light');

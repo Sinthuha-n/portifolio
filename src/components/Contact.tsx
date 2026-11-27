@@ -16,32 +16,33 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-16 sm:py-24 border-t border-theme-border">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="py-16 sm:py-20 border-b border-theme-border bg-theme-bg">
+      <div className="mx-auto max-w-[1120px] px-6 lg:px-10">
         <div
           ref={ref}
           className={`reveal-item ${isInView ? 'reveal-visible' : 'reveal-hidden'}`}
         >
-          <div className="rounded-3xl border border-theme-border bg-theme-surface p-8 sm:p-12 lg:p-14 shadow-theme-lg text-left">
-            <div className="max-w-2xl">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-theme-accent-light px-3.5 py-1 text-xs font-semibold text-theme-accent mb-4">
-                Let’s Connect
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-theme-text">
-                Get In Touch
-              </h2>
-              <p className="mt-3 text-base sm:text-lg text-theme-text-muted leading-relaxed">
-                I am actively seeking internship opportunities across software engineering, DevOps pipelines, and mobile application engineering. Whether you have an open role, feedback, or an interesting engineering problem, I would love to hear from you.
-              </p>
-            </div>
+          {/* Section Header (aligned to exact left edge) */}
+          <div className="text-left mb-10 sm:mb-12">
+            <p className="text-xs font-bold uppercase tracking-wider text-theme-text-subtle">
+              Let’s Connect
+            </p>
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-purple-heading dark:text-purple-dark sm:text-4xl">
+              Get In Touch
+            </h2>
+            <p className="mt-3 text-base sm:text-lg text-theme-text-muted leading-relaxed max-w-2xl">
+              I am actively seeking internship opportunities across software engineering, DevOps pipelines, and mobile application development. Let’s discuss how I can contribute to your engineering team.
+            </p>
+          </div>
 
-            {/* Contact details & action buttons */}
-            <div className="mt-8 pt-8 border-t border-theme-border grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              {/* Email callout */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3.5">
+          {/* Contact Card spanning full container width */}
+          <div className="rounded-2xl border border-theme-border bg-theme-surface p-6 sm:p-10 shadow-theme-sm text-left">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              {/* Email actions */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                 <a
                   href={`mailto:${email}`}
-                  className="inline-flex items-center gap-2.5 rounded-xl bg-theme-accent px-5 py-3 text-sm font-semibold text-white shadow-theme-md transition-all hover:bg-theme-accent-hover focus-visible:outline-2 focus-visible:outline-theme-accent"
+                  className="inline-flex items-center gap-2 rounded-xl bg-theme-btn-primary-bg text-theme-btn-primary-text px-5 py-3 text-sm font-semibold shadow-theme-sm transition-all hover:opacity-90 focus-visible:outline-2"
                 >
                   <Mail className="h-4 w-4" />
                   <span>Send an Email</span>
@@ -50,7 +51,7 @@ export const Contact: React.FC = () => {
                 <button
                   type="button"
                   onClick={copyEmail}
-                  className="inline-flex items-center gap-2 rounded-xl border border-theme-border bg-theme-surface-subtle px-4 py-3 text-sm font-medium text-theme-text hover:border-theme-border-strong transition-colors focus-visible:outline-2 focus-visible:outline-theme-accent"
+                  className="inline-flex items-center gap-2 rounded-xl border border-theme-btn-secondary-border bg-theme-btn-secondary-bg text-theme-btn-secondary-text px-4 py-3 text-sm font-medium transition-colors hover:bg-gray-50 dark:hover:bg-slate-800 focus-visible:outline-2"
                   aria-label="Copy email address to clipboard"
                 >
                   {copied ? (
@@ -73,7 +74,7 @@ export const Contact: React.FC = () => {
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-text transition-colors hover:border-theme-accent hover:text-theme-accent shadow-theme-sm"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link transition-colors hover:border-gray-400 hover:text-theme-text shadow-theme-sm"
                 >
                   <Github className="h-4 w-4" />
                   <span>GitHub</span>
@@ -84,7 +85,7 @@ export const Contact: React.FC = () => {
                   href={linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-text transition-colors hover:border-theme-accent hover:text-theme-accent shadow-theme-sm"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link transition-colors hover:border-gray-400 hover:text-theme-text shadow-theme-sm"
                 >
                   <Linkedin className="h-4 w-4" />
                   <span>LinkedIn</span>
@@ -95,7 +96,7 @@ export const Contact: React.FC = () => {
                   href={medium}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-text transition-colors hover:border-theme-accent hover:text-theme-accent shadow-theme-sm"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-theme-border bg-theme-surface px-4 py-2.5 text-xs font-semibold text-theme-link transition-colors hover:border-gray-400 hover:text-theme-text shadow-theme-sm"
                 >
                   <BookOpen className="h-4 w-4" />
                   <span>Medium</span>
@@ -104,10 +105,10 @@ export const Contact: React.FC = () => {
               </div>
             </div>
 
-            {/* Context footer inside contact card */}
-            <div className="mt-6 pt-4 border-t border-theme-border/60 flex flex-wrap items-center justify-between gap-3 text-xs text-theme-text-subtle">
+            {/* Context footer */}
+            <div className="mt-8 pt-4 border-t border-theme-border flex flex-wrap items-center justify-between gap-3 text-xs text-theme-text-subtle">
               <span className="flex items-center gap-1">
-                <MapPin className="h-3.5 w-3.5 text-theme-accent" />
+                <MapPin className="h-3.5 w-3.5" />
                 {university} • {location}
               </span>
               <span>{targetRoles}</span>
