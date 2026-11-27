@@ -201,7 +201,7 @@ export const portfolioData: PortfolioData = {
           caption: "Milestone roadmap view with sprint scheduling and date dependencies",
         },
       ],
-      githubUrl: "https://github.com/Sinthuha-n",
+      githubUrl: "https://github.com/axzellinnovations/project_management_app",
       liveUrl: "",
     },
     {
@@ -245,7 +245,7 @@ export const portfolioData: PortfolioData = {
           caption: "Guest registration and reservation account portal",
         },
       ],
-      githubUrl: "https://github.com/Sinthuha-n/SpringBoot",
+      githubUrl: "https://github.com/Sinthuha-n/CheckInn",
       liveUrl: "",
     },
     {
@@ -288,7 +288,7 @@ export const portfolioData: PortfolioData = {
           caption: "Responsive phone coloring experience with SQLite autosave",
         },
       ],
-      githubUrl: "https://github.com/Sinthuha-n",
+      githubUrl: "https://github.com/Sinthuha-n/Page-Bloom",
       liveUrl: "",
     },
   ],
