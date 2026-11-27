@@ -27,6 +27,8 @@ export interface Article {
   publication: string;
   url: string;
   readTime: string;
+  date?: string;
+  author?: string;
   description: string;
   tags: string[];
 }
@@ -119,7 +121,7 @@ export const portfolioData: PortfolioData = {
       "Production Optimization: Optimized bundle compile verification with Vite",
     ],
     workflowPath: ".github/workflows/ci.yml",
-    workflowUrl: "https://medium.com/@sinthuhanadesan/what-happens-after-you-push-code-the-ci-cd-journey-047fba13f38f",
+    workflowUrl: "https://medium.com/@sinthuhanadesan/what-happens-after-you-push-code-the-ci-cd-journey-9130bdbd01e9",
   },
 
   projects: [
@@ -234,12 +236,14 @@ export const portfolioData: PortfolioData = {
 
   writing: [
     {
-      title: "What Happens After You Push Code? The CI/CD Journey",
+      title: "What Happens After You Push Code? The CI/CD Journey.",
       publication: "Medium",
-      url: "https://medium.com/@sinthuhanadesan/what-happens-after-you-push-code-the-ci-cd-journey-047fba13f38f",
+      url: "https://medium.com/@sinthuhanadesan/what-happens-after-you-push-code-the-ci-cd-journey-9130bdbd01e9",
       readTime: "4 min read",
+      date: "Oct 2024",
+      author: "Sinthuha Nadesan",
       description:
-        "An introductory breakdown detailing how Continuous Integration and Continuous Delivery/Deployment (CI/CD) pipelines automate testing, linting, type safety, and release gates from commit to production.",
+        "A comprehensive engineering breakdown detailing how Continuous Integration and Continuous Delivery/Deployment (CI/CD) pipelines automate testing, linting, type safety, and release gates from commit to production.",
       tags: ["CI/CD", "DevOps", "Automation", "GitHub Actions"],
     },
     {
@@ -247,18 +251,22 @@ export const portfolioData: PortfolioData = {
       publication: "LinkIT Intecs",
       url: "https://medium.com/linkit-intecs/why-version-control-is-the-backbone-of-software-development-8ef3e09fb90a",
       readTime: "4 min read",
+      date: "Sep 2024",
+      author: "Sinthuha Nadesan",
       description:
         "A practical breakdown of version control fundamentals, Git branching strategies, and why team discipline in commits and pull requests forms the bedrock of reliable software delivery.",
       tags: ["Git", "Version Control", "Engineering Practices"],
     },
     {
-      title: "When Code Gets a Vibe: Is AI About to Steal Your Keyboard?",
+      title: "Social Media: Behind the Screen",
       publication: "Medium",
-      url: "https://medium.com/@sinthuhanadesan/when-code-gets-a-vibe-is-ai-about-to-steal-your-keyboard-25cd83f596bc",
-      readTime: "3 min read",
+      url: "https://medium.com/@sinthuhanadesan/social-media-behind-the-screen-f8f443c20ccd",
+      readTime: "4 min read",
+      date: "Aug 2024",
+      author: "Sinthuha Nadesan",
       description:
-        "Examining how modern AI tools and assistive coding enhance engineer productivity, and why core system thinking, problem solving, and architecture remain uniquely human skills.",
-      tags: ["AI in Tech", "Developer Workflow", "Software Careers"],
+        "Reflections on digital habits, the architecture of online engagement, and how aspiring software engineers can build mindful, intentional boundaries with digital products.",
+      tags: ["Tech Culture", "Mindful Tech", "Perspectives"],
     },
   ],
 
