@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Project } from '../data/portfolioData';
 import { useInView } from '../hooks/useInView';
 import {
@@ -28,10 +28,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   onOpenCaseStudy,
 }) => {
   const { ref, isInView } = useInView();
+  const [activeImgIdx, setActiveImgIdx] = useState(0);
 
   const hasGithub = Boolean(project.githubUrl && project.githubUrl.trim() !== '');
   const hasLive = Boolean(project.liveUrl && project.liveUrl.trim() !== '');
-  const hasImage = Boolean(project.imageUrl && project.imageUrl.trim() !== '');
+  const gallery = project.gallery && project.gallery.length > 0 ? project.gallery : null;
+  const currentImage = gallery ? gallery[activeImgIdx] || gallery[0] : null;
+  const displayImageUrl = currentImage ? currentImage.url : project.imageUrl;
+  const displayImageAlt = currentImage ? `${project.title} - ${currentImage.label}` : `Screenshot of ${project.title}`;
+  const displayImageCaption = currentImage?.caption;
+  const hasImage = Boolean(displayImageUrl && displayImageUrl.trim() !== '');
 
   return (
     <div
@@ -69,7 +75,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   {project.category}
                 </span>
 
-                {isWide && (
+                {project.isFeaturedWide && (
                   <span className="inline-flex items-center rounded-full border border-purple-200 dark:border-purple-900 bg-purple-50 dark:bg-purple-950/40 px-2.5 py-0.5 text-xs font-semibold text-purple-heading dark:text-purple-dark">
                     Lead Feature
                   </span>
@@ -162,14 +168,45 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Compact Visual Graphic Representation */}
         {isWide ? (
           <div className="mt-5 lg:mt-0 lg:col-span-5 flex flex-col justify-center">
+            {gallery && gallery.length > 1 && (
+              <div className="flex items-center gap-1.5 mb-2.5" role="tablist" aria-label={`${project.title} views`}>
+                {gallery.map((item, idx) => {
+                  const isSelected = activeImgIdx === idx;
+                  return (
+                    <button
+                      key={item.label}
+                      type="button"
+                      role="tab"
+                      aria-selected={isSelected}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setActiveImgIdx(idx);
+                      }}
+                      className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                        isSelected
+                          ? 'bg-purple-100 dark:bg-purple-950/70 text-purple-heading dark:text-purple-dark border border-purple-300 dark:border-purple-800 shadow-xs'
+                          : 'bg-theme-bg/80 text-theme-text-muted hover:text-theme-text border border-theme-border hover:border-gray-300 dark:hover:border-slate-700'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
             {hasImage ? (
               <div className="overflow-hidden rounded-xl border border-theme-border bg-theme-bg shadow-theme-sm">
                 <img
-                  src={project.imageUrl}
-                  alt={`Screenshot of ${project.title}`}
-                  className="w-full max-h-[240px] sm:max-h-[260px] object-cover object-top transition-transform duration-300 hover:scale-[1.02]"
+                  src={displayImageUrl}
+                  alt={displayImageAlt}
+                  className="w-full aspect-[16/10] object-cover object-top transition-transform duration-300 hover:scale-[1.02]"
                   loading="lazy"
                 />
+                {displayImageCaption && (
+                  <div className="px-3 py-1.5 bg-theme-surface border-t border-theme-border text-center">
+                    <p className="text-[11px] text-theme-text-muted">{displayImageCaption}</p>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex flex-col justify-between rounded-xl border border-theme-border bg-theme-bg p-4 shadow-theme-sm">
@@ -225,14 +262,45 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         ) : (
           <div className="mt-5">
+            {gallery && gallery.length > 1 && (
+              <div className="flex items-center gap-1.5 mb-2.5" role="tablist" aria-label={`${project.title} views`}>
+                {gallery.map((item, idx) => {
+                  const isSelected = activeImgIdx === idx;
+                  return (
+                    <button
+                      key={item.label}
+                      type="button"
+                      role="tab"
+                      aria-selected={isSelected}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setActiveImgIdx(idx);
+                      }}
+                      className={`px-2.5 py-0.5 text-[11px] font-semibold rounded-lg transition-all ${
+                        isSelected
+                          ? 'bg-purple-100 dark:bg-purple-950/70 text-purple-heading dark:text-purple-dark border border-purple-300 dark:border-purple-800 shadow-xs'
+                          : 'bg-theme-bg/80 text-theme-text-muted hover:text-theme-text border border-theme-border hover:border-gray-300 dark:hover:border-slate-700'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
             {hasImage ? (
               <div className="overflow-hidden rounded-xl border border-theme-border bg-theme-bg shadow-theme-sm">
                 <img
-                  src={project.imageUrl}
-                  alt={`Screenshot of ${project.title}`}
-                  className="h-40 sm:h-44 w-full object-cover object-top transition-transform duration-300 hover:scale-[1.02]"
+                  src={displayImageUrl}
+                  alt={displayImageAlt}
+                  className="w-full aspect-[16/10] object-cover object-top transition-transform duration-300 hover:scale-[1.02]"
                   loading="lazy"
                 />
+                {displayImageCaption && (
+                  <div className="px-3 py-1.5 bg-theme-surface border-t border-theme-border text-center">
+                    <p className="text-[10px] text-theme-text-muted truncate">{displayImageCaption}</p>
+                  </div>
+                )}
               </div>
             ) : project.id === 'checkinn' ? (
               <div className="rounded-xl border border-theme-border bg-theme-bg p-3.5">

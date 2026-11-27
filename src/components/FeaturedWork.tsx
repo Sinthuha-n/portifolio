@@ -9,9 +9,6 @@ interface FeaturedWorkProps {
 export const FeaturedWork: React.FC<FeaturedWorkProps> = ({ onOpenPlanoraCaseStudy }) => {
   const { projects } = portfolioData;
 
-  const planoraProject = projects.find((p) => p.id === 'planora') || projects[0];
-  const secondaryProjects = projects.filter((p) => p.id !== 'planora');
-
   return (
     <section id="work" className="scroll-mt-20 py-16 sm:py-20 border-b border-theme-border bg-theme-bg">
       <div className="mx-auto max-w-[1120px] px-6 lg:px-10">
@@ -28,27 +25,17 @@ export const FeaturedWork: React.FC<FeaturedWorkProps> = ({ onOpenPlanoraCaseStu
           </p>
         </div>
 
-        {/* Lead Planora Feature + Two-Column Layout for CheckINN & Page-Bloom */}
-        <div className="space-y-8">
-          {/* 1. Wide Lead Feature for Planora */}
-          {planoraProject && (
-            <div id="project-planora" className="w-full scroll-mt-24">
+        {/* All Projects in Full-Width Horizontal Row Type Layout */}
+        <div className="space-y-8 sm:space-y-10">
+          {projects.map((project) => (
+            <div key={project.id} id={`project-${project.id}`} className="w-full scroll-mt-24">
               <ProjectCard
-                project={planoraProject}
+                project={project}
                 isWide={true}
-                onOpenCaseStudy={onOpenPlanoraCaseStudy}
+                onOpenCaseStudy={project.id === 'planora' ? onOpenPlanoraCaseStudy : undefined}
               />
             </div>
-          )}
-
-          {/* 2. Equally Sized Two-Column Desktop Grid for CheckINN and Page-Bloom */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch">
-            {secondaryProjects.map((project) => (
-              <div key={project.id} id={`project-${project.id}`} className="scroll-mt-24 h-full">
-                <ProjectCard project={project} isWide={false} />
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
     </section>

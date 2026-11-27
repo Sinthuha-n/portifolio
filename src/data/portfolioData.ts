@@ -6,6 +6,12 @@ export interface PlanoraCaseStudy {
   techStack: string[];
 }
 
+export interface ProjectImage {
+  url: string;
+  label: string;
+  caption?: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -21,6 +27,7 @@ export interface Project {
   tech: string[];
   isFeaturedWide?: boolean;
   imageUrl?: string;
+  gallery?: ProjectImage[];
   githubUrl?: string;
   liveUrl?: string;
   caseStudy?: PlanoraCaseStudy;
@@ -181,8 +188,20 @@ export const portfolioData: PortfolioData = {
         "Drag & Drop Engine",
       ],
       isFeaturedWide: true,
-      imageUrl: "/images/projects/planora-kanban.png",
-      githubUrl: "https://github.com/Sinthuha-n",
+      imageUrl: "/images/projects/planora-kanban.jpg",
+      gallery: [
+        {
+          url: "/images/projects/planora-kanban.jpg",
+          label: "Kanban Board",
+          caption: "Interactive drag-and-drop task columns with optimistic state sync",
+        },
+        {
+          url: "/images/projects/planora-timeline.jpg",
+          label: "Sprint Timeline",
+          caption: "Milestone roadmap view with sprint scheduling and date dependencies",
+        },
+      ],
+      githubUrl: "https://github.com/axzellinnovations/project_management_app",
       liveUrl: "",
     },
     {
@@ -213,8 +232,20 @@ export const portfolioData: PortfolioData = {
         "Tailwind CSS",
       ],
       isFeaturedWide: false,
-      imageUrl: "/images/projects/checkinn-courtyard.jpg",
-      githubUrl: "https://github.com/Sinthuha-n/SpringBoot",
+      imageUrl: "/images/projects/checkinn-landing.jpg",
+      gallery: [
+        {
+          url: "/images/projects/checkinn-landing.jpg",
+          label: "Discovery Landing",
+          caption: "CheckINN luxury room discovery landing page",
+        },
+        {
+          url: "/images/projects/checkinn-auth.jpg",
+          label: "Guest Access",
+          caption: "Guest registration and reservation account portal",
+        },
+      ],
+      githubUrl: "https://github.com/Sinthuha-n/CheckInn",
       liveUrl: "",
     },
     {
@@ -245,7 +276,19 @@ export const portfolioData: PortfolioData = {
       ],
       isFeaturedWide: false,
       imageUrl: "/images/projects/page-bloom-tablet.png",
-      githubUrl: "https://github.com/Sinthuha-n",
+      gallery: [
+        {
+          url: "/images/projects/page-bloom-tablet.png",
+          label: "Tablet Studio",
+          caption: "Tablet-first vector canvas with tap-to-color regions",
+        },
+        {
+          url: "/images/projects/page-bloom-phone.png",
+          label: "Mobile View",
+          caption: "Responsive phone coloring experience with SQLite autosave",
+        },
+      ],
+      githubUrl: "https://github.com/Sinthuha-n/Page-Bloom",
       liveUrl: "",
     },
   ],
